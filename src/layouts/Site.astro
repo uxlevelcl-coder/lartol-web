@@ -185,6 +185,20 @@ const jsonld = {
         });
       }, 2500);
 
+      // Videos: reproducir solo cuando están en pantalla
+      const videos = document.querySelectorAll('video');
+      videos.forEach((v) => {
+        v.muted = true; // refuerzo del autoplay
+        const io = new IntersectionObserver(
+          (e) => {
+            if (e[0].isIntersecting) v.play().catch(() => {});
+            else v.pause();
+          },
+          { threshold: 0.2 }
+        );
+        io.observe(v);
+      });
+
       // Globo del botón de WhatsApp: aparece solo, se retira al interactuar
       const fab = document.querySelector('.fab');
       const tip = document.querySelector('[data-tip]');
