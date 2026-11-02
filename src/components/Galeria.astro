@@ -1,4 +1,6 @@
 ---
+import { base } from '../data/site';
+
 const fotos = [
   {
     src: '/img/obras/obra-galpon.webp',
@@ -47,7 +49,7 @@ const fotos = [
     <div class="gal" data-reveal>
       {fotos.map((f) => (
         <figure class={f.clase}>
-          <img src={f.src} alt={f.alt} loading="lazy" width="1200" height="896" />
+          <img src={`${base}${f.src}`} alt={f.alt} loading="lazy" width="1200" height="896" />
           <figcaption>
             <span>{f.kicker}</span>
             <span>{f.nota}</span>
@@ -56,7 +58,7 @@ const fotos = [
       ))}
 
       <figure class="gal__item gal__plan">
-        <img src="/img/iso-galpon.svg" alt="Isométrico de galpón de 24 por 12 metros" width="863" height="666" loading="lazy" />
+        <img src={`${base}/img/iso-galpon.svg`} alt="Isométrico de galpón de 24 por 12 metros" width="863" height="666" loading="lazy" />
         <figcaption>
           <span>Ingeniería</span>
           <span>Modelo de fabricación</span>

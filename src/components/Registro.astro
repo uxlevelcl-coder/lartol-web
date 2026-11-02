@@ -1,4 +1,5 @@
 ---
+import { base } from '../data/site';
 import fs from 'node:fs';
 import path from 'node:path';
 
@@ -19,8 +20,8 @@ const datos = [
       <figure class="registro__media">
         {hayVideo ? (
           <video
-            src="/img/video/obra-9x16.mp4"
-            poster="/img/obras/registro-poster.webp"
+            src={`${base}/img/video/obra-9x16.mp4`}
+            poster={`${base}/img/obras/registro-poster.webp`}
             autoplay
             muted
             loop
@@ -30,7 +31,7 @@ const datos = [
           ></video>
         ) : (
           <img
-            src="/img/obras/registro-poster.webp"
+            src={`${base}/img/obras/registro-poster.webp`}
             alt="Galpón industrial en construcción, con grúa y camiones en faena"
             width="1000"
             height="821"

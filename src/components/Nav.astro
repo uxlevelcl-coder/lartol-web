@@ -1,11 +1,11 @@
 ---
-import { site, nav, navCompleto, waLink } from '../data/site';
+import { site, nav, navCompleto, waLink, base } from '../data/site';
 ---
 
 <header class="site-header">
   <div class="site-header__in">
     <a href="#inicio" class="brand" aria-label={`${site.nombreLargo} — inicio`}>
-      <img class="brand__img" src="/img/logo-lartol-claro.svg" alt={site.nombreLargo} width="1725" height="278" />
+      <img class="brand__img" src={`${base}/img/logo-lartol-claro.svg`} alt={site.nombreLargo} width="1725" height="278" />
     </a>
 
     <nav class="nav" aria-label="Navegación principal">
@@ -34,7 +34,7 @@ import { site, nav, navCompleto, waLink } from '../data/site';
 <div class="menu" id="menu-movil" data-menu aria-hidden="true">
   <div class="menu__in">
     <div class="menu__top">
-      <span class="menu__brand"><img src="/img/logo-lartol-claro.svg" alt={site.nombreLargo} width="1725" height="278" /></span>
+      <span class="menu__brand"><img src={`${base}/img/logo-lartol-claro.svg`} alt={site.nombreLargo} width="1725" height="278" /></span>
       <button class="menu__close" type="button" aria-label="Cerrar menú" data-menu-close>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
       </button>

@@ -1,6 +1,6 @@
 ---
 import '../styles/global.css';
-import { site, waLink } from '../data/site';
+import { site, waLink, base } from '../data/site';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 
@@ -62,7 +62,7 @@ const jsonld = {
     <meta property="og:locale" content="es_CL" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content={`${site.dominio}/og.jpg`} />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href={`${base}/favicon.svg`} type="image/svg+xml" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

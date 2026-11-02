@@ -1,5 +1,5 @@
 ---
-import { site, navCompleto } from '../data/site';
+import { site, navCompleto, base } from '../data/site';
 ---
 
 <section class="legal" id="legal">
@@ -70,7 +70,7 @@ import { site, navCompleto } from '../data/site';
   <div class="wrap">
     <div class="footer__top">
       <div>
-        <img class="footer__logo" src="/img/logo-lartol-claro.svg" alt={site.nombreLargo} width="1744" height="400" loading="lazy" />
+        <img class="footer__logo" src={`${base}/img/logo-lartol-claro.svg`} alt={site.nombreLargo} width="1744" height="400" loading="lazy" />
         <h3>Ingeniería y montaje para obras que no admiten improvisación.</h3>
         <p>{site.razonSocial} · {site.ciudad}, {site.region} · Cobertura {site.cobertura}.</p>
       </div>

@@ -4,6 +4,9 @@
 // Los campos marcados PENDIENTE son marcadores: reemplazar antes de publicar.
 // ------------------------------------------------------------------
 
+// prefijo de despliegue (GitHub Pages sirve en /lartol-web/)
+export const base = (import.meta.env.BASE_URL || '/').replace(/\/$/, '');
+
 export const site = {
   nombre: 'LARTOL',
   nombreLargo: 'LARTOL Ingeniería, Montaje y Diseño',

@@ -1,7 +1,7 @@
 ---
 import fs from 'node:fs';
 import path from 'node:path';
-import { site, waLink } from '../data/site';
+import { site, waLink, base } from '../data/site';
 
 // Video de fondo del hero: si existe el archivo, reemplaza la fotografía.
 const VIDEO = path.join(process.cwd(), 'public', 'img', 'video', 'hero.mp4');
@@ -13,8 +13,8 @@ const hayVideo = fs.existsSync(VIDEO);
     {hayVideo ? (
       <video
         class="hero__video"
-        src="/img/video/hero.mp4"
-        poster="/img/obras/hero-poster.webp"
+        src={`${base}/img/video/hero.mp4`}
+        poster={`${base}/img/obras/hero-poster.webp`}
         autoplay
         muted
         loop
@@ -24,7 +24,7 @@ const hayVideo = fs.existsSync(VIDEO);
       ></video>
     ) : (
       <img
-        src="/img/obras/hero-poster.webp"
+        src={`${base}/img/obras/hero-poster.webp`}
         alt="Obra industrial en ejecución: grúa izando una cercha de acero y camiones en faena"
         width="1376" height="768" fetchpriority="high"
       />
