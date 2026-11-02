@@ -1,0 +1,160 @@
+---
+const servicios = [
+  {
+    id: 'ingenieria',
+    num: '01',
+    label: 'Ingeniería',
+    title: 'Ingeniería de detalle y cálculo estructural',
+    text: 'Modelamos, calculamos y documentamos la estructura antes de comprar un kilo de acero. El resultado son planos que el taller puede fabricar sin interpretar y que el revisor puede aprobar sin observaciones.',
+    deliv: [
+      'Modelo tridimensional y memoria de cálculo firmada',
+      'Planos de fabricación y montaje por eje',
+      'Cubicación de perfiles, planchas y consumibles',
+      'Especificaciones técnicas y protocolos de soldadura',
+    ],
+    meta: [
+      ['Verificación', 'NCh 432 · NCh 2369 · NCh 1537 · AISC 360 (LRFD)'],
+      ['Entregable', 'Carpeta técnica en PDF y modelo nativo'],
+      ['Plazo típico', '2 a 6 semanas según complejidad'],
+    ],
+  },
+  {
+    id: 'estructuras',
+    num: '02',
+    label: 'Estructuras',
+    title: 'Estructuras metálicas y fabricación',
+    text: 'Galpones, pasarelas, soportaciones, escalas y estructuras especiales. Coordinamos la fabricación con talleres acreditados y controlamos soldadura, torque y espesor de película seca antes de despachar.',
+    deliv: [
+      'Fabricación con WPS y PQR vigentes',
+      'Control dimensional y trazabilidad de colada',
+      'Tratamiento superficial y pintura según especificación',
+      'Informe de liberación por lote antes de despacho',
+    ],
+    meta: [
+      ['Norma de soldadura', 'AWS D1.1 · ASME IX · API 1104'],
+      ['Alcance', 'Desde 250 kg hasta 40 t por paquete'],
+      ['Modalidad', 'Suministro y montaje o solo suministro'],
+    ],
+  },
+  {
+    id: 'montaje',
+    num: '03',
+    label: 'Montaje',
+    title: 'Montaje industrial en planta en operación',
+    text: 'Entramos donde el acceso es único, el tránsito está activo y la planta sigue produciendo. La diferencia está en la secuencia: qué se arma en taller, qué se iza y qué se aperna en terreno.',
+    deliv: [
+      'Plan de izaje con pesos, radios y equipos definidos',
+      'Análisis de riesgo por tarea y permisos de trabajo',
+      'Prefabricación por tramos y perímetro apernado',
+      'Reporte diario de avance y protocolos de liberación',
+    ],
+    meta: [
+      ['Restricciones', 'Acceso restringido · planta en operación · tránsito activo'],
+      ['Personal', 'Cuadrillas propias y supervisión dedicada'],
+      ['Seguridad', 'DS 76 · Ley 20.123 · Ley Karin'],
+    ],
+  },
+  {
+    id: 'diseno',
+    num: '04',
+    label: 'Diseño y habilitación',
+    title: 'Diseño y habilitación de espacios de faena',
+    text: 'Oficinas de obra, casinos, lockers, salas de descanso y urbanización. Diseñamos el espacio, especificamos el mobiliario técnico y lo entregamos funcionando, con la acreditación del personal resuelta.',
+    deliv: [
+      'Layout y especificación de mobiliario técnico',
+      'Habilitación de instalaciones básicas y terminaciones',
+      'Cierre perimetral, señalización y urbanización',
+      'Entrega con check list de recepción del mandante',
+    ],
+    meta: [
+      ['Tipología', 'Oficinas · casinos · lockers · talleres'],
+      ['Modalidad', 'Llave en mano o por partidas'],
+      ['Cobertura', 'Chile continental, con flete informado'],
+    ],
+  },
+];
+---
+
+<section class="section bg-paper" id="servicios">
+  <div class="wrap">
+    <div class="sec-head" data-reveal>
+      <div>
+        <span class="eyebrow">Servicios</span>
+        <h2>Ingeniería, montaje y diseño bajo un <em style="font-style:normal;color:var(--accent)">solo responsable</em>.</h2>
+      </div>
+      <p class="lead">
+        Cuatro líneas de trabajo que se contratan por separado o como un paquete único.
+        Cada una con entregables definidos y un responsable técnico con nombre.
+      </p>
+    </div>
+
+    <div class="tabs" data-tabs>
+      <div class="tabs__list" role="tablist" aria-label="Servicios">
+        {servicios.map((s, i) => (
+          <button
+            class="tabs__btn"
+            role="tab"
+            id={`tab-${s.id}`}
+            aria-controls={`panel-${s.id}`}
+            aria-selected={i === 0 ? 'true' : 'false'}
+            data-tab={s.id}
+          >
+            <i>{s.num}</i>{s.label}
+          </button>
+        ))}
+      </div>
+
+      {servicios.map((s, i) => (
+        <div
+          class="tabs__panel"
+          role="tabpanel"
+          id={`panel-${s.id}`}
+          aria-labelledby={`tab-${s.id}`}
+          data-panel={s.id}
+          data-active={i === 0 ? '' : undefined}
+        >
+          <div>
+            <h3>{s.title}</h3>
+            <p>{s.text}</p>
+            <div class="tabs__deliv">
+              <span class="mono-label">Qué se entrega</span>
+              <ul>{s.deliv.map((d) => <li>{d}</li>)}</ul>
+            </div>
+          </div>
+          <div class="tabs__meta">
+            <dl>
+              {s.meta.map(([k, v]) => (
+                <div>
+                  <dt>{k}</dt>
+                  <dd>{v}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <div class="cta-row" style="margin-top:28px">
+      <a class="btn btn--ink" href="#contacto">Enviar un requerimiento</a>
+      <a class="link-arrow" href="#modelos">Ver modalidades de contrato <span>→</span></a>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll('[data-tabs]').forEach((root) => {
+    const btns = [...root.querySelectorAll<HTMLButtonElement>('[data-tab]')];
+    const panels = [...root.querySelectorAll<HTMLElement>('[data-panel]')];
+    btns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const id = btn.dataset.tab;
+        btns.forEach((b) => b.setAttribute('aria-selected', String(b.dataset.tab === id)));
+        panels.forEach((p) => {
+          if (p.dataset.panel === id) p.setAttribute('data-active', '');
+          else p.removeAttribute('data-active');
+        });
+      });
+    });
+  });
+</script>

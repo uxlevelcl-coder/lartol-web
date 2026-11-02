@@ -1,0 +1,59 @@
+---
+const razones = [
+  {
+    n: '01',
+    title: 'Un solo contrato',
+    text: 'Un interlocutor de la ingeniería a la entrega. No hay tres proveedores culpándose cuando algo no calza.',
+  },
+  {
+    n: '02',
+    title: 'Ingeniería propia',
+    text: 'El diseño y el cálculo son nuestros. Si en terreno aparece un problema, se resuelve en la oficina técnica, no esperando a un tercero.',
+  },
+  {
+    n: '03',
+    title: 'Secuencia definida',
+    text: 'Cada izaje y cada apoyo se define en plano antes de movilizar. El equipo se elige por peso calculado, no por disponibilidad.',
+  },
+  {
+    n: '04',
+    title: 'Entrada a faena resuelta',
+    text: 'El personal ingresa con la documentación y los cursos al día. Un certificado vencido es la causa más común de una cuadrilla detenida.',
+  },
+  {
+    n: '05',
+    title: 'Propuesta sin letra chica',
+    text: 'Gastos generales y utilidad explícitos, supuestos y exclusiones escritos. La orden de cambio se conversa antes, no después.',
+  },
+  {
+    n: '06',
+    title: 'Carpeta técnica completa',
+    text: 'Planos as-built, protocolos firmados y certificados de soldadura. La obra queda auditable cuando ya no estamos ahí.',
+  },
+];
+---
+
+<section class="section bg-paper" id="porque">
+  <div class="wrap">
+    <div class="sec-head" data-reveal>
+      <div>
+        <span class="eyebrow">Por qué LARTOL</span>
+        <h2>Seis cosas concretas, no seis adjetivos.</h2>
+      </div>
+      <p class="lead">
+        Ninguna de estas seis depende del tamaño de la obra. Son la forma en que
+        trabajamos un cálculo de 20 UF y una faena de 20.000.
+      </p>
+    </div>
+
+    <div class="grid-3">
+      {razones.map((r) => (
+        <article class="card" data-reveal>
+          <span class="card__num">{r.n}</span>
+          <h3>{r.title}</h3>
+          <p>{r.text}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

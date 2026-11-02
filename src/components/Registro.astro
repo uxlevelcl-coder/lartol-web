@@ -1,0 +1,67 @@
+---
+import fs from 'node:fs';
+import path from 'node:path';
+
+// Si el archivo existe en public/img/video/, el bloque cambia solo a video.
+const RUTA = path.join(process.cwd(), 'public', 'img', 'video', 'obra-9x16.mp4');
+const hayVideo = fs.existsSync(RUTA);
+
+const datos = [
+  ['Disciplina', 'Montaje de estructura'],
+  ['Registro', 'Dron · órbita'],
+  ['Formato', '9:16 · vertical'],
+];
+---
+
+<section class="section bg-paper" id="registro">
+  <div class="wrap">
+    <div class="registro" data-reveal>
+      <figure class="registro__media">
+        {hayVideo ? (
+          <video
+            src="/img/video/obra-9x16.mp4"
+            poster="/img/obras/registro-poster.webp"
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="metadata"
+            aria-label="Registro aéreo vertical de una estructura metálica en construcción"
+          ></video>
+        ) : (
+          <img
+            src="/img/obras/registro-poster.webp"
+            alt="Galpón industrial en construcción, con grúa y camiones en faena"
+            width="1000"
+            height="821"
+            loading="lazy"
+          />
+        )}
+        <figcaption>
+          <span>{hayVideo ? 'Registro en video' : 'Registro fotográfico'}</span>
+          <span>LARTOL</span>
+        </figcaption>
+      </figure>
+
+      <div class="registro__txt">
+        <span class="eyebrow">Registro de obra</span>
+        <h2>La estructura se ve distinta desde arriba.</h2>
+        <p class="lead">
+          Una toma aérea muestra lo que una foto a nivel de suelo no muestra: la modulación
+          real de los pórticos, el orden en que se montan y cómo la estructura ocupa el terreno.
+        </p>
+
+        <dl class="registro__datos">
+          {datos.map(([k, v]) => (
+            <div>
+              <dt>{k}</dt>
+              <dd>{v}</dd>
+            </div>
+          ))}
+        </dl>
+
+        <a class="btn btn--outline" href="#contacto">Pedir una propuesta</a>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,253 @@
+---
+import { site, waLink } from '../data/site';
+---
+
+<section class="section bg-soft" id="contacto">
+  <div class="wrap">
+    <div class="sec-head" data-reveal>
+      <div>
+        <span class="eyebrow">Contacto</span>
+        <h2>Cuéntanos la restricción. Te decimos si la podemos resolver.</h2>
+      </div>
+      <p class="lead">
+        Responde un ingeniero, no un formulario automático. Si el alcance no calza con lo
+        que hacemos, lo decimos en la primera respuesta.
+      </p>
+    </div>
+
+    <div class="contact">
+      <div data-reveal>
+        <h3 style="margin-bottom:14px">Contacto directo</h3>
+        <p class="lead" style="font-size:15px">
+          Para requerimientos con plazo, escribe por correo indicando disciplina, ubicación
+          y fecha de ejecución. Respondemos con las preguntas técnicas antes que con un precio.
+        </p>
+
+        <div class="contact__direct">
+          <a href={`mailto:${site.email}`}>
+            <span class="mono-label">Correo</span>
+            <span>{site.email}</span>
+          </a>
+          <a href={`tel:${site.telefonoLink}`}>
+            <span class="mono-label">Teléfono</span>
+            <span>{site.telefono}</span>
+          </a>
+          <a href={waLink} target="_blank" rel="noopener">
+            <span class="mono-label">WhatsApp</span>
+            <span>{site.telefono} · respuesta en horario hábil</span>
+          </a>
+          <div>
+            <span class="mono-label">Base</span>
+            <span>{site.ciudad}, {site.region} · cobertura {site.cobertura}</span>
+          </div>
+          <div>
+            <span class="mono-label">Horario</span>
+            <span>Lunes a viernes, 08:30 a 18:30</span>
+          </div>
+        </div>
+      </div>
+
+      <form class="form" id="form-cotizacion" novalidate data-reveal>
+        <div class="form__row">
+          <div class="field">
+            <label for="f-nombre">Nombre</label>
+            <input id="f-nombre" name="nombre" type="text" autocomplete="name" required />
+          </div>
+          <div class="field">
+            <label for="f-empresa">Empresa</label>
+            <input id="f-empresa" name="empresa" type="text" autocomplete="organization" required />
+          </div>
+        </div>
+
+        <div class="form__row">
+          <div class="field">
+            <label for="f-email">Correo</label>
+            <input id="f-email" name="email" type="email" autocomplete="email" required />
+          </div>
+          <div class="field">
+            <label for="f-tel">Teléfono</label>
+            <input id="f-tel" name="telefono" type="tel" autocomplete="tel" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="f-disciplina">Qué necesitas</label>
+          <select id="f-disciplina" name="disciplina">
+            <option>Ingeniería de detalle y cálculo</option>
+            <option>Estructuras metálicas y fabricación</option>
+            <option>Montaje industrial</option>
+            <option>Habilitación de faena y obras menores</option>
+            <option>Comisionamiento</option>
+            <option>No lo tengo definido todavía</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="f-obra">Ubicación y plazo</label>
+          <input id="f-obra" name="ubicacion" type="text" placeholder="Ej. Antofagasta, faena en operación, marzo 2027" />
+        </div>
+
+        <div class="field">
+          <label for="f-msg">Descripción del requerimiento</label>
+          <textarea id="f-msg" name="mensaje" required placeholder="Tipo de estructura, tonelaje aproximado, restricciones de acceso, si hay planos disponibles."></textarea>
+        </div>
+
+        <div class="field">
+          <span class="field__label" id="lbl-file">Antecedentes (opcional)</span>
+          <label class="drop" for="f-file" data-drop aria-labelledby="lbl-file">
+            <span class="drop__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21.4 11.05 12.25 20.2a5.5 5.5 0 0 1-7.78-7.78l8.49-8.49a3.67 3.67 0 0 1 5.19 5.19l-8.49 8.49a1.83 1.83 0 0 1-2.6-2.6l7.07-7.07" />
+              </svg>
+            </span>
+            <span class="drop__body">
+              <span class="drop__title" data-drop-name>Arrastra un plano o <b>selecciona un archivo</b></span>
+              <span class="drop__hint" data-drop-hint>PDF, DWG, XLSX o imagen · hasta 10 MB</span>
+            </span>
+            <input class="drop__input" id="f-file" name="archivo" type="file" accept=".pdf,.dwg,.dxf,.xlsx,.xls,.doc,.docx,.jpg,.jpeg,.png,.webp" />
+            <button class="drop__clear" type="button" data-drop-clear hidden>Quitar</button>
+          </label>
+          <p class="field__help">El nombre del archivo viaja en el mensaje. El plano se adjunta al correo que se abre al enviar.</p>
+        </div>
+
+        <div class="cta-row">
+          <button class="btn btn--primary" type="submit">Enviar requerimiento</button>
+          <button class="btn btn--outline" type="button" data-wa>Enviar por WhatsApp</button>
+        </div>
+
+        <p class="form__note">
+          Al enviar aceptas el tratamiento de tus datos según la
+          <a href="#legal">política de privacidad</a>. Los antecedentes se usan solo para
+          preparar la propuesta.
+        </p>
+        <p class="form__note" id="form-status" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<script>
+  const form = document.getElementById('form-cotizacion') as HTMLFormElement | null;
+
+  if (form) {
+    const status = document.getElementById('form-status') as HTMLElement;
+
+    /* ---------- Carga de antecedentes ---------- */
+    const drop = form.querySelector('[data-drop]') as HTMLElement;
+    const fileInput = form.querySelector('#f-file') as HTMLInputElement;
+    const nameEl = form.querySelector('[data-drop-name]') as HTMLElement;
+    const hintEl = form.querySelector('[data-drop-hint]') as HTMLElement;
+    const clearBtn = form.querySelector('[data-drop-clear]') as HTMLButtonElement;
+    const textoBase = nameEl.innerHTML;
+    const hintBase = hintEl.textContent || '';
+
+    const peso = (bytes: number) =>
+      bytes < 1024 * 1024 ? `${Math.max(1, Math.round(bytes / 1024))} KB` : `${(bytes / 1024 / 1024).toFixed(1)} MB`;
+
+    const pintarArchivo = () => {
+      const f = fileInput.files && fileInput.files[0];
+      if (f) {
+        drop.classList.add('is-set');
+        nameEl.textContent = f.name;
+        hintEl.textContent = `${peso(f.size)} · listo para adjuntar`;
+        clearBtn.hidden = false;
+      } else {
+        drop.classList.remove('is-set');
+        nameEl.innerHTML = textoBase;
+        hintEl.textContent = hintBase;
+        clearBtn.hidden = true;
+      }
+    };
+
+    fileInput.addEventListener('change', pintarArchivo);
+
+    clearBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      fileInput.value = '';
+      pintarArchivo();
+    });
+
+    ['dragenter', 'dragover'].forEach((ev) =>
+      drop.addEventListener(ev, (e) => {
+        e.preventDefault();
+        drop.classList.add('is-over');
+      })
+    );
+    ['dragleave', 'drop'].forEach((ev) =>
+      drop.addEventListener(ev, () => drop.classList.remove('is-over'))
+    );
+    drop.addEventListener('drop', (e) => {
+      const dt = (e as DragEvent).dataTransfer;
+      if (dt && dt.files.length) {
+        fileInput.files = dt.files;
+        pintarArchivo();
+      }
+    });
+
+    /* ---------- Armar el mensaje ---------- */
+    const leer = () => {
+      const d = new FormData(form);
+      const g = (k: string) => String(d.get(k) || '').trim();
+      const arc = fileInput.files && fileInput.files[0];
+      return {
+        nombre: g('nombre'),
+        empresa: g('empresa'),
+        email: g('email'),
+        telefono: g('telefono'),
+        disciplina: g('disciplina'),
+        ubicacion: g('ubicacion'),
+        mensaje: g('mensaje'),
+        archivo: arc ? `${arc.name} (${peso(arc.size)})` : '',
+      };
+    };
+
+    const resumen = (x: ReturnType<typeof leer>) =>
+      [
+        `Nombre: ${x.nombre}`,
+        `Empresa: ${x.empresa}`,
+        `Correo: ${x.email}`,
+        `Teléfono: ${x.telefono}`,
+        `Disciplina: ${x.disciplina}`,
+        `Ubicación y plazo: ${x.ubicacion}`,
+        x.archivo ? `Antecedente a adjuntar: ${x.archivo}` : '',
+        '',
+        'Requerimiento:',
+        x.mensaje,
+      ]
+        .filter(Boolean)
+        .join('\n');
+
+    const validar = (x: ReturnType<typeof leer>) => {
+      if (!x.nombre || !x.empresa || !x.email || !x.mensaje) {
+        status.textContent = 'Completa nombre, empresa, correo y descripción del requerimiento.';
+        return false;
+      }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(x.email)) {
+        status.textContent = 'Revisa el correo: falta el formato nombre@dominio.cl.';
+        return false;
+      }
+      return true;
+    };
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const datos = leer();
+      if (!validar(datos)) return;
+      const cuerpo = encodeURIComponent(resumen(datos));
+      const asunto = encodeURIComponent(`Requerimiento · ${datos.empresa} · ${datos.disciplina}`);
+      window.location.href = `mailto:contacto@lartol.cl?subject=${asunto}&body=${cuerpo}`;
+      status.textContent = datos.archivo
+        ? 'Se abrió tu correo con el requerimiento. Adjunta el archivo antes de enviar.'
+        : 'Se abrió tu correo con el requerimiento listo para enviar.';
+    });
+
+    form.querySelector('[data-wa]')?.addEventListener('click', () => {
+      const datos = leer();
+      if (!validar(datos)) return;
+      const texto = encodeURIComponent(`Hola LARTOL, quiero cotizar.\n\n${resumen(datos)}`);
+      window.open(`https://wa.me/56900000000?text=${texto}`, '_blank', 'noopener');
+      status.textContent = 'Se abrió WhatsApp con el requerimiento redactado.';
+    });
+  }
+</script>

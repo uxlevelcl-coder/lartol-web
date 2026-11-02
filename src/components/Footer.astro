@@ -1,0 +1,99 @@
+---
+import { site, navCompleto } from '../data/site';
+---
+
+<section class="legal" id="legal">
+  <div class="wrap" style="padding-block:44px">
+    <details>
+      <summary>Aviso legal</summary>
+      <div class="legal__body">
+        <p>
+          <strong>Titular del sitio.</strong> {site.razonSocial}, RUT {site.rut},
+          con domicilio en {site.ciudad}, {site.region}, Chile. Contacto: {site.email}.
+        </p>
+        <p>
+          <strong>Contenido referencial.</strong> La información de este sitio es referencial
+          y no constituye una oferta. Las condiciones técnicas, económicas y de plazo solo
+          obligan a {site.nombre} cuando constan en una cotización o en un contrato formal firmado.
+        </p>
+        <p>
+          <strong>Alcance de las cifras.</strong> Las normas citadas corresponden al marco técnico
+          con el que se calcula y ejecuta. Los plazos indicados son referenciales y dependen de
+          la complejidad, la disponibilidad de talleres y las ventanas de trabajo del mandante.
+        </p>
+        <p>
+          <strong>Propiedad intelectual.</strong> Los textos, planos, imágenes y modelos de este
+          sitio son de {site.nombre} o se usan con autorización de sus autores. No se permite
+          reproducirlos sin consentimiento escrito.
+        </p>
+      </div>
+    </details>
+
+    <details>
+      <summary>Política de privacidad</summary>
+      <div class="legal__body">
+        <p><strong>Responsable.</strong> {site.razonSocial}. Consultas y solicitudes: {site.email}.</p>
+        <p>
+          <strong>Datos que tratamos.</strong> Los que ingresas en el formulario o nos envías por
+          correo o WhatsApp: nombre, empresa, cargo, correo, teléfono y la descripción y archivos
+          de tu proyecto.
+        </p>
+        <p>
+          <strong>Finalidad y base.</strong> Responder tu solicitud, preparar la evaluación o
+          cotización y hacer su seguimiento comercial, con tu consentimiento, que puedes retirar
+          en cualquier momento.
+        </p>
+        <p>
+          <strong>Destinatarios.</strong> No cedemos ni vendemos tus datos. Usamos proveedores
+          tecnológicos para alojar el sitio, recibir los formularios y gestionar el correo y la
+          mensajería, que pueden tratar los datos fuera de Chile por cuenta de {site.nombre}.
+        </p>
+        <p>
+          <strong>Conservación.</strong> Mientras dure la relación comercial y hasta dos años desde
+          el último contacto, salvo que la ley exija un plazo mayor.
+        </p>
+        <p>
+          <strong>Tus derechos.</strong> Puedes pedir acceso, rectificación, supresión, oposición,
+          portabilidad y bloqueo de tus datos escribiendo a {site.email}. Este tratamiento se rige
+          por la Ley 19.628 y, desde su entrada en vigencia, por la Ley 21.719.
+        </p>
+        <p>
+          <strong>Analítica.</strong> Si se activa una herramienta de medición, se avisará en este
+          mismo apartado indicando qué se mide y cómo bloquearla desde el navegador.
+        </p>
+      </div>
+    </details>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer__top">
+      <div>
+        <img class="footer__logo" src="/img/logo-lartol-claro.svg" alt={site.nombreLargo} width="1744" height="400" loading="lazy" />
+        <h3>Ingeniería y montaje para obras que no admiten improvisación.</h3>
+        <p>{site.razonSocial} · {site.ciudad}, {site.region} · Cobertura {site.cobertura}.</p>
+      </div>
+      <div class="footer__col">
+        <h4>Secciones</h4>
+        <ul>
+          {navCompleto.map((n) => <li><a href={n.href}>{n.label}</a></li>)}
+        </ul>
+      </div>
+      <div class="footer__col">
+        <h4>Contacto</h4>
+        <ul>
+          <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
+          <li><a href={`tel:${site.telefonoLink}`}>{site.telefono}</a></li>
+          <li>Lunes a viernes · 08:30 a 18:30</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span>© {site.anio} {site.razonSocial}. Todos los derechos reservados.</span>
+      <span>
+        <a href="#legal">Aviso legal</a> · <a href="#legal">Privacidad</a>
+      </span>
+    </div>
+  </div>
+</footer>

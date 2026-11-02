@@ -1,0 +1,70 @@
+---
+const normas = [
+  ['NCh 432', 'Cálculo de solicitaciones y diseño en acero'],
+  ['NCh 2369', 'Diseño sísmico de estructuras industriales'],
+  ['NCh 1537', 'Acciones y combinaciones de carga'],
+  ['NCh 3171', 'Diseño estructural de edificaciones'],
+  ['AISC 360', 'Especificación LRFD para acero estructural'],
+  ['AWS D1.1', 'Calificación de soldadura estructural'],
+  ['ASME IX', 'Soldadura en equipos y estanques a presión'],
+  ['API 1104', 'Soldadura de ductos y cañerías'],
+];
+
+const cumplimiento = [
+  ['ISO 9001 · ISO 45001', 'Sistema de gestión como piso, no como adorno'],
+  ['DS 76', 'Reglamento de seguridad para contratistas en faena'],
+  ['Ley 20.123', 'Responsabilidad solidaria del mandante'],
+  ['Ley Karin', 'Protocolo de prevención de acoso laboral'],
+];
+---
+
+<section class="section bg-blue on-dark" id="estandares">
+  <div class="wrap">
+    <div class="sec-head" data-reveal>
+      <div>
+        <span class="eyebrow eyebrow--sky">Estándares</span>
+        <h2>La ingeniería se verifica. Sin norma no se monta.</h2>
+      </div>
+      <p class="lead">
+        Todo cálculo se entrega con su referencia normativa y la firma del responsable.
+        Cuando el proyecto lo exige, el cálculo se firma por ingeniero calculista externo.
+      </p>
+    </div>
+
+    <dl class="stds" data-reveal>
+      {normas.map(([n, d]) => (
+        <div>
+          <dt>{n}</dt>
+          <dd>{d}</dd>
+        </div>
+      ))}
+    </dl>
+
+    <div class="grid-2" style="margin-top:44px" data-reveal>
+      <div>
+        <span class="mono-label" style="display:block;margin-bottom:16px">Gestión y cumplimiento</span>
+        <div class="rows" style="border-top-color:var(--line-dark)">
+          {cumplimiento.map(([k, v]) => (
+            <div class="rows__item" style="grid-template-columns:150px 1fr;padding:14px 0">
+              <div class="rows__num" style="color:var(--accent-soft)">{k}</div>
+              <div class="rows__body"><p style="font-size:14px">{v}</p></div>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div>
+        <span class="mono-label" style="display:block;margin-bottom:16px">Acreditación de proveedores</span>
+        <p class="lead" style="font-size:14.5px">
+          Trabajamos alineados con los requisitos de acreditación de la gran minería
+          (RNCCS y SICEP): experiencia validada con facturas, competencias en terreno,
+          índices de seguridad y personal con documentos vigentes al día de ingreso.
+        </p>
+        <p class="lead" style="font-size:14.5px;margin-top:16px">
+          <strong style="color:#fff">No declaramos una certificación que no tengamos.</strong>
+          Este sitio describe el estándar con el que trabajamos; el estado de cada inscripción
+          se informa por escrito en la propuesta.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>

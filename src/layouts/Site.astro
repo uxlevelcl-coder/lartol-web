@@ -1,0 +1,218 @@
+---
+import '../styles/global.css';
+import { site, waLink } from '../data/site';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+
+const titulo = `${site.nombre} · Ingeniería, montaje y diseño industrial`;
+const descripcion =
+  'Ingeniería de detalle, estructuras metálicas, montaje industrial y habilitación de faena para minería, energía y agua. Un solo responsable, de la ingeniería a la entrega.';
+
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  name: site.nombreLargo,
+  url: site.dominio,
+  email: site.email,
+  description: descripcion,
+  areaServed: ['Chile', 'Región de Antofagasta', 'Región Metropolitana', 'Región de Valparaíso'],
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: site.ciudad,
+    addressRegion: site.region,
+    addressCountry: 'CL',
+  },
+  knowsAbout: [
+    'Ingeniería de detalle',
+    'Estructuras metálicas',
+    'Montaje industrial',
+    'Habilitación de faena',
+    'Comisionamiento',
+    'NCh 432',
+    'AISC 360',
+  ],
+  makesOffer: [
+    'Ingeniería de detalle y cálculo estructural',
+    'Fabricación y montaje de estructuras metálicas',
+    'Montaje industrial en planta en operación',
+    'Habilitación de faena y obras menores',
+    'Comisionamiento y puesta en marcha',
+  ].map((s) => ({ '@type': 'Offer', itemOffered: { '@type': 'Service', name: s } })),
+};
+---
+
+<!doctype html>
+<html lang="es-CL">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{titulo}</title>
+    <meta name="description" content={descripcion} />
+    <link rel="canonical" href={site.dominio} />
+    <meta name="theme-color" content="#14120D" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.nombreLargo} />
+    <meta property="og:title" content={titulo} />
+    <meta property="og:description" content={descripcion} />
+    <meta property="og:url" content={site.dominio} />
+    <meta property="og:image" content={`${site.dominio}/og.jpg`} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="es_CL" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={`${site.dominio}/og.jpg`} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <script type="application/ld+json" set:html={JSON.stringify(jsonld)} />
+  </head>
+  <body>
+    <Nav />
+    <main>
+      <slot />
+    </main>
+    <Footer />
+
+    <a class="fab" href={waLink} target="_blank" rel="noopener" aria-label="Escribir por WhatsApp">
+      <span class="fab__ring" aria-hidden="true"></span>
+      <span class="fab__ring fab__ring--2" aria-hidden="true"></span>
+      <span class="fab__tip" data-tip aria-hidden="true">
+        <span class="fab__tip-full">¿Cotizamos tu proyecto?</span>
+        <span class="fab__tip-short">¿Cotizamos?</span>
+      </span>
+      <svg class="fab__icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.2-1.8-.9-2-1-.3-.1-.5-.2-.7.1-.2.3-.7 1-.9 1.2-.2.2-.3.2-.6.1-1.7-.8-2.8-1.5-3.8-3.3-.3-.5.3-.5.8-1.5.1-.2 0-.4 0-.5 0-.2-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2 3.1 4.9 4.3 1.8.8 2.5.8 3.4.7.5-.1 1.8-.7 2-1.4.3-.7.3-1.3.2-1.4-.1-.1-.3-.2-.6-.3z"/><path d="M12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.4 1.3 4.8L2 22l5.3-1.4c1.4.8 3 1.2 4.7 1.2 5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3.1.8.8-3-.2-.3A8.1 8.1 0 0 1 3.8 12c0-4.5 3.7-8.2 8.2-8.2s8.2 3.7 8.2 8.2-3.7 8.2-8.2 8.2z"/></svg>
+    </a>
+
+    <script>
+      // Header sólido + sección activa en el menú
+      const hdr = document.querySelector('.site-header');
+      const enlacesNav = [...document.querySelectorAll('.nav a[href^="#"]')];
+      const mapaNav = enlacesNav
+        .map((a) => ({ a, sec: document.querySelector(a.getAttribute('href')) }))
+        .filter((x) => x.sec);
+
+      const barra = document.querySelector('[data-progress]');
+      const pintarProgreso = () => {
+        if (!barra) return;
+        const max = document.documentElement.scrollHeight - window.innerHeight;
+        const p = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+        barra.style.transform = `scaleX(${p.toFixed(4)})`;
+      };
+
+      const actualizarNav = () => {
+        if (hdr) hdr.classList.toggle('is-scrolled', window.scrollY > 40);
+        pintarProgreso();
+
+        // posición absoluta real (offsetTop miente si hay ancestros posicionados)
+        const y = window.scrollY + 170;
+        let actual = null;
+        if (window.scrollY > 120) {
+          mapaNav.forEach(({ sec }) => {
+            const top = sec.getBoundingClientRect().top + window.scrollY;
+            if (top <= y) actual = sec;
+          });
+        }
+        mapaNav.forEach(({ a, sec }) => {
+          if (sec === actual) a.setAttribute('aria-current', 'true');
+          else a.removeAttribute('aria-current');
+        });
+      };
+
+      actualizarNav();
+      window.addEventListener('scroll', actualizarNav, { passive: true });
+      window.addEventListener('resize', actualizarNav);
+
+      // Reveal: nunca dejar contenido invisible
+      const pendientes = new Set(document.querySelectorAll('[data-reveal]:not(.is-in)'));
+
+      const revelar = (el) => {
+        el.classList.add('is-in');
+        pendientes.delete(el);
+      };
+
+      // ya visible en el viewport, o ya quedó por encima de él (scroll rápido / ancla)
+      const corresponde = (el) => {
+        const r = el.getBoundingClientRect();
+        return r.top < window.innerHeight - 40 || r.bottom < 0;
+      };
+
+      const revisar = () => {
+        pendientes.forEach((el) => {
+          if (corresponde(el)) revelar(el);
+        });
+      };
+
+      if ('IntersectionObserver' in window) {
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => {
+              if (e.isIntersecting || e.boundingClientRect.top < 0) {
+                revelar(e.target);
+                io.unobserve(e.target);
+              }
+            });
+          },
+          { rootMargin: '0px 0px -8% 0px', threshold: 0.05 }
+        );
+        pendientes.forEach((el) => io.observe(el));
+      }
+
+      revisar();
+      let pendienteFrame = false;
+      const alScrollear = () => {
+        if (pendienteFrame) return;
+        pendienteFrame = true;
+        requestAnimationFrame(() => {
+          pendienteFrame = false;
+          revisar();
+          if (pendientes.size === 0) window.removeEventListener('scroll', alScrollear);
+        });
+      };
+      window.addEventListener('scroll', alScrollear, { passive: true });
+      window.addEventListener('resize', alScrollear);
+
+      // red de seguridad: nada queda oculto pasados 2,5 s
+      setTimeout(() => {
+        pendientes.forEach((el) => {
+          if (corresponde(el)) revelar(el);
+        });
+      }, 2500);
+
+      // Globo del botón de WhatsApp: aparece solo, se retira al interactuar
+      const fab = document.querySelector('.fab');
+      const tip = document.querySelector('[data-tip]');
+      if (fab && tip) {
+        let silenciado = false;
+        const mostrar = () => {
+          if (!silenciado) tip.classList.add('is-visible');
+        };
+        const esconder = () => tip.classList.remove('is-visible');
+
+        const t1 = setTimeout(mostrar, 4500);
+        const t2 = setTimeout(() => {
+          if (!silenciado) esconder();
+        }, 13000);
+
+        fab.addEventListener('mouseenter', () => { silenciado = true; esconder(); });
+        fab.addEventListener('focus', () => { silenciado = true; esconder(); });
+        window.addEventListener(
+          'scroll',
+          () => {
+            silenciado = true;
+            clearTimeout(t1);
+            clearTimeout(t2);
+            esconder();
+          },
+          { passive: true, once: true }
+        );
+      }
+    </script>
+  </body>
+</html>

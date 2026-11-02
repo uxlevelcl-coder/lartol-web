@@ -1,0 +1,73 @@
+---
+const docs = [
+  ['01', 'Planos as-built', 'La obra como quedó construida, con sus modificaciones y aprobaciones.'],
+  ['02', 'Memoria de cálculo', 'Solicitaciones, combinaciones, resultados y firma del responsable.'],
+  ['03', 'Protocolos de liberación', 'Firmados por etapa: trazado, armado, soldadura, torque y pintura.'],
+  ['04', 'Certificados de soldadura', 'WPS, PQR y registro de soldadores calificados por norma.'],
+  ['05', 'Registro de pruebas', 'Comisionamiento, mediciones y check list de cada sistema entregado.'],
+  ['06', 'Garantía escrita', 'Plazo, alcance y condiciones de la garantía de obra.'],
+];
+
+const sectores = [
+  ['Minería', 'Ampliaciones en brownfield, paradas y estructuras de proceso con la planta operando.'],
+  ['Energía y BESS', 'Soportación de equipos, salas eléctricas y montaje en proyectos de almacenamiento.'],
+  ['Agua y desalación', 'Piping, HDPE, impulsiones y soportación en plantas y redes de agua.'],
+  ['Alimentos e industria', 'Líneas de proceso, pasarelas, plataformas y habilitación sin detener producción.'],
+  ['Infraestructura', 'Pasarelas, cobertizos y estructuras en obras con tránsito o acceso restringido.'],
+  ['Edificación industrial', 'Galpones, oficinas de obra y urbanización con entrega llave en mano.'],
+];
+---
+
+<section class="section bg-soft" id="entrega">
+  <div class="wrap">
+    <div class="dossier" data-reveal>
+      <div>
+        <span class="eyebrow">Entrega</span>
+        <h2>Cada obra se entrega con su carpeta técnica.</h2>
+        <p class="lead" style="margin-top:20px">
+          El entregable no es una foto de la obra terminada: es el expediente que permite
+          auditarla, mantenerla y modificarla sin adivinar. Se entrega impreso y digital.
+        </p>
+        <div class="cta-row" style="margin-top:26px">
+          <a class="btn btn--outline" href="#contacto">Pedir una propuesta</a>
+        </div>
+      </div>
+      <ul class="doc-list">
+        {docs.map(([n, t, d]) => (
+          <li>
+            <span>{n}</span>
+            <div>
+              <b>{t}</b>
+              {d}
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="section bg-bone" id="sectores">
+  <div class="wrap">
+    <div class="sec-head" data-reveal>
+      <div>
+        <span class="eyebrow">Sectores</span>
+        <h2>Donde la obra convive con una operación que sigue andando.</h2>
+      </div>
+      <p class="lead">
+        El rubro define la restricción. La restricción define el diseño, la secuencia
+        y el equipo de izaje antes de llegar a terreno.
+      </p>
+    </div>
+
+    <div class="sectors" data-reveal>
+      {sectores.map(([t, d], i) => (
+        <div class="sector">
+          <span class="mono-label">{String(i + 1).padStart(2, '0')}</span>
+          <h3>{t}</h3>
+          <p>{d}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

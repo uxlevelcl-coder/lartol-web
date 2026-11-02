@@ -1,0 +1,70 @@
+---
+import fs from 'node:fs';
+import path from 'node:path';
+import { site, waLink } from '../data/site';
+
+// Video de fondo del hero: si existe el archivo, reemplaza la fotografía.
+const VIDEO = path.join(process.cwd(), 'public', 'img', 'video', 'hero.mp4');
+const hayVideo = fs.existsSync(VIDEO);
+---
+
+<section class="hero" id="inicio">
+  <div class="hero__bg">
+    {hayVideo ? (
+      <video
+        class="hero__video"
+        src="/img/video/hero.mp4"
+        poster="/img/obras/hero-poster.webp"
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="metadata"
+        aria-label="Obra industrial en ejecución: estructura metálica, grúa y camiones en funcionamiento"
+      ></video>
+    ) : (
+      <img
+        src="/img/obras/hero-poster.webp"
+        alt="Obra industrial en ejecución: grúa izando una cercha de acero y camiones en faena"
+        width="1376" height="768" fetchpriority="high"
+      />
+    )}
+  </div>
+
+  <div class="wrap hero__in">
+    <span class="eyebrow eyebrow--sky">Ingeniería · Montaje · Diseño</span>
+
+    <h1>Ingeniería y montaje <em>sin improvisación</em>.</h1>
+
+    <p class="hero__lead">
+      Diseñamos, calculamos y ejecutamos estructuras metálicas, piping y habilitación
+      industrial para minería, energía y agua. Un solo contrato, una sola firma técnica
+      y una sola responsabilidad en terreno.
+    </p>
+
+    <div class="cta-row">
+      <a class="btn btn--primary btn--lg" href="#contacto">Solicitar cotización</a>
+      <a class="btn btn--ghost btn--lg" href="#obras">Ver obras</a>
+    </div>
+
+    <a class="hero__wa" href={waLink} target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.2-1.8-.9-2-1-.3-.1-.5-.2-.7.1-.2.3-.7 1-.9 1.2-.2.2-.3.2-.6.1-1.7-.8-2.8-1.5-3.8-3.3-.3-.5.3-.5.8-1.5.1-.2 0-.4 0-.5 0-.2-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2 3.1 4.9 4.3 1.8.8 2.5.8 3.4.7.5-.1 1.8-.7 2-1.4.3-.7.3-1.3.2-1.4-.1-.1-.3-.2-.6-.3z"/><path d="M12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.4 1.3 4.8L2 22l5.3-1.4c1.4.8 3 1.2 4.7 1.2 5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3.1.8.8-3-.2-.3A8.1 8.1 0 0 1 3.8 12c0-4.5 3.7-8.2 8.2-8.2s8.2 3.7 8.2 8.2-3.7 8.2-8.2 8.2z"/></svg>
+      WhatsApp <strong>{site.telefono}</strong>
+    </a>
+
+    <dl class="hero__stats">
+      <div>
+        <dt>Un responsable</dt>
+        <dd>Ingeniería, fabricación y montaje bajo un mismo contrato.</dd>
+      </div>
+      <div>
+        <dt class="is-accent">Cero improvisación</dt>
+        <dd>Secuencia de montaje definida en plano antes de intervenir la faena.</dd>
+      </div>
+      <div>
+        <dt>Norma chilena</dt>
+        <dd>Cálculo y fabricación verificados según NCh y AISC 360.</dd>
+      </div>
+    </dl>
+  </div>
+</section>

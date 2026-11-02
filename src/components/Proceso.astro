@@ -1,0 +1,61 @@
+---
+const pasos = [
+  {
+    n: '01',
+    k: 'Alcance',
+    title: 'Levantamiento y cierre de alcance',
+    text: 'Visitamos, medimos y revisamos los antecedentes disponibles. Lo que no está definido se escribe como supuesto, no se resuelve a la buena. Salida: alcance cerrado con exclusiones explícitas.',
+  },
+  {
+    n: '02',
+    k: 'Ingeniería',
+    title: 'Cálculo y documentación',
+    text: 'Modelo tridimensional, memoria de cálculo y planos de fabricación por eje. La estructura se verifica según norma antes de comprar material.',
+  },
+  {
+    n: '03',
+    k: 'Planificación',
+    title: 'Plan de montaje y análisis de riesgo',
+    text: 'Secuencia de armado, izaje y apoyos, con el equipo que realmente entra a la obra. Cada tarea lleva su análisis de riesgo y sus permisos.',
+  },
+  {
+    n: '04',
+    k: 'Ejecución',
+    title: 'Obra con control diario',
+    text: 'Cuadrillas con jefatura dedicada, protocolos de liberación y reporte de avance. El mandante ve el estado real todos los días, no al final.',
+  },
+  {
+    n: '05',
+    k: 'Cierre',
+    title: 'Entrega con carpeta técnica',
+    text: 'Planos as-built, protocolos firmados, certificados de soldadura y registro de pruebas. La obra se entrega operable, no solo terminada.',
+  },
+];
+---
+
+<section class="section bg-paper" id="proceso">
+  <div class="wrap">
+    <div class="sec-head" data-reveal>
+      <div>
+        <span class="eyebrow">Método</span>
+        <h2>Cinco etapas. Ninguna se salta.</h2>
+      </div>
+      <p class="lead">
+        El mismo procedimiento para un cálculo de 20 UF que para una obra de 20.000.
+        Cambia la escala, no la forma de trabajar.
+      </p>
+    </div>
+
+    <div class="rows">
+      {pasos.map((p) => (
+        <div class="rows__item" data-reveal>
+          <div class="rows__num"><b>{p.n}</b>{p.k}</div>
+          <div class="rows__body">
+            <h3>{p.title}</h3>
+            <p>{p.text}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

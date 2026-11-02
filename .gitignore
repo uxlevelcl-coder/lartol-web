@@ -1,0 +1,29 @@
+# dependencias y builds
+node_modules/
+dist/
+.astro/
+.env
+.env.production
+
+# temporales y capturas de trabajo
+shots*/
+shots_lartol/
+candidates/
+*.log
+err.txt
+telemetria.json
+contraste*.json
+*_preview.html
+audit_*.py
+shot*.py
+verify_focus.py
+test_nav.py
+medir_omg.py
+fetch_imgs.py
+unsplash.html
+u.json
+ov.json
+
+# sistema
+.DS_Store
+Thumbs.db

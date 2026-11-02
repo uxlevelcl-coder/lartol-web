@@ -1,0 +1,66 @@
+---
+const cols = ['Oficina técnica', 'Suma alzada', 'Subcontrato y administración'];
+
+const filas = [
+  {
+    k: 'Qué contrata',
+    a: 'Un alcance técnico acotado: cálculo, planos, cubicación o revisión.',
+    b: 'Un entregable cerrado con precio y plazo fijos.',
+    c: 'Mano de obra y supervisión dentro del contrato de un tercero.',
+  },
+  {
+    k: 'Cómo se cotiza',
+    a: 'Por hito o por hora profesional con tope definido.',
+    b: 'Precio global por partidas, con supuestos y exclusiones escritas.',
+    c: 'Por administración, con gastos generales y utilidad explícitos.',
+  },
+  {
+    k: 'Quién pone el equipo',
+    a: 'LARTOL. Oficina técnica y revisión.',
+    b: 'LARTOL. Cuadrillas propias y supervisión dedicada.',
+    c: 'El contratista principal. LARTOL aporta cuadrilla y jefatura.',
+  },
+  {
+    k: 'Cuándo conviene',
+    a: 'Cuando el proyecto aún no está definido o hay que licitarlo.',
+    b: 'Cuando el alcance está claro y la ventana de obra es corta.',
+    c: 'Cuando se necesita entrar a faena con un registro ya vigente.',
+  },
+];
+---
+
+<section class="section bg-soft" id="modelos">
+  <div class="wrap">
+    <div class="sec-head" data-reveal>
+      <div>
+        <span class="eyebrow">Modalidades de contratación</span>
+        <h2>Tres formas de contratarnos. Las tres con el alcance por escrito.</h2>
+      </div>
+      <p class="lead">
+        La modalidad se elige según el estado del proyecto, no según el presupuesto.
+        En las tres, la propuesta detalla supuestos, exclusiones y quién responde por qué.
+      </p>
+    </div>
+
+    <div class="table-wrap" data-reveal>
+      <table class="model">
+        <thead>
+          <tr>
+            <th scope="col"></th>
+            {cols.map((c) => <th scope="col">{c}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {filas.map((f) => (
+            <tr>
+              <th scope="row">{f.k}</th>
+              <td data-col={cols[0]}>{f.a}</td>
+              <td data-col={cols[1]}>{f.b}</td>
+              <td data-col={cols[2]}>{f.c}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>

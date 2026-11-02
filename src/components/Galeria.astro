@@ -1,0 +1,72 @@
+---
+const fotos = [
+  {
+    src: '/img/obras/obra-galpon.webp',
+    alt: 'Interior de galpón de acero con pórticos y cubierta translúcida',
+    kicker: 'Estructuras',
+    nota: 'Galpón industrial',
+    clase: 'gal__item gal__item--wide',
+  },
+  {
+    src: '/img/obras/obra-planta.webp',
+    alt: 'Estructura metálica de planta industrial en construcción',
+    kicker: 'Montaje',
+    nota: 'Planta en ejecución',
+    clase: 'gal__item gal__item--tall',
+  },
+  {
+    src: '/img/obras/obra-piping.webp',
+    alt: 'Racks de tuberías y pasarela de acceso en planta industrial',
+    kicker: 'Piping',
+    nota: 'Racks y pasarelas',
+    clase: 'gal__item',
+  },
+  {
+    src: '/img/obras/obra-detalle.webp',
+    alt: 'Unión apernada de acero con torquímetro y marcas de control',
+    kicker: 'Control',
+    nota: 'Torque y liberación',
+    clase: 'gal__item',
+  },
+];
+---
+
+<section class="section bg-soft" id="obras">
+  <div class="wrap">
+    <div class="sec-head" data-reveal>
+      <div>
+        <span class="eyebrow">Obras y tipologías</span>
+        <h2>El tipo de obra que ejecutamos.</h2>
+      </div>
+      <p class="lead">
+        Galpones, plantas en operación, racks de piping y uniones apernadas: cuatro
+        situaciones que definen el estándar de ejecución y control de cada proyecto.
+      </p>
+    </div>
+
+    <div class="gal" data-reveal>
+      {fotos.map((f) => (
+        <figure class={f.clase}>
+          <img src={f.src} alt={f.alt} loading="lazy" width="1200" height="896" />
+          <figcaption>
+            <span>{f.kicker}</span>
+            <span>{f.nota}</span>
+          </figcaption>
+        </figure>
+      ))}
+
+      <figure class="gal__item gal__plan">
+        <img src="/img/iso-galpon.svg" alt="Isométrico de galpón de 24 por 12 metros" width="863" height="666" loading="lazy" />
+        <figcaption>
+          <span>Ingeniería</span>
+          <span>Modelo de fabricación</span>
+        </figcaption>
+      </figure>
+    </div>
+
+    <p class="obra__nota">
+      Imágenes de referencia de tipología de obra. Las fotografías de proyectos propios se
+      incorporan cuando el mandante autoriza su publicación; cada ficha indica el rol ejecutado.
+    </p>
+  </div>
+</section>

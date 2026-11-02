@@ -1,0 +1,411 @@
+---
+---
+
+<section class="section bg-blue on-dark" id="modelo">
+  <div class="wrap">
+    <div class="sec-head" data-reveal>
+      <div>
+        <span class="eyebrow eyebrow--sky">Modelo 3D</span>
+        <h2>Del modelo a la obra montada.</h2>
+      </div>
+      <p class="lead">
+        Así se arma una estructura antes de tocar terreno: cada pórtico, correa y
+        arriostramiento en su orden de montaje. Gira el modelo para verlo desde el ángulo
+        que te interesa.
+      </p>
+    </div>
+
+    <div class="visor" data-visor>
+      <canvas class="visor__canvas" data-canvas aria-label="Modelo tridimensional de un galpón de acero de 24 por 12 metros" role="img"></canvas>
+
+      <div class="visor__hud">
+        <span class="visor__tag" data-fase>Montaje · pórticos</span>
+        <div class="visor__actions">
+          <button type="button" class="visor__btn" data-replay>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>
+            Repetir montaje
+          </button>
+          <button type="button" class="visor__btn is-off" data-rotar aria-pressed="false">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.6-6.4"/><path d="M21 3v5h-5"/></svg>
+            Rotación
+          </button>
+
+          <button type="button" class="visor__btn" data-video>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 10l4.5-2.6a1 1 0 0 1 1.5.9v7.4a1 1 0 0 1-1.5.9L15 14"/><rect x="3" y="6" width="12" height="12" rx="2"/></svg>
+            <span data-video-label>Grabar video</span>
+          </button>
+        </div>
+        <span class="visor__hint">Arrastra para girar · rueda para acercar</span>
+      </div>
+
+      <div class="visor__fallback" data-fallback hidden>
+        <p>Tu navegador no puede mostrar el modelo 3D. Puedes ver el plano isométrico en la galería de obras.</p>
+      </div>
+    </div>
+
+    <dl class="obra__datos">
+      <div><dt>Luz</dt><dd>24,00 m</dd></div>
+      <div><dt>Ancho</dt><dd>12,00 m</dd></div>
+      <div><dt>Altura al hombro</dt><dd>5,60 m</dd></div>
+      <div><dt>Pórticos</dt><dd>7 cada 4 m</dd></div>
+    </dl>
+
+    <p class="obra__nota">
+      Modelo demostrativo generado para este sitio: galpón tipo de 24 × 12 m con cercha
+      de dos aguas. Cada proyecto se calcula según su terreno, uso y cargas.
+    </p>
+  </div>
+</section>
+
+<script>
+  const L = 24, W = 12, H = 5.6, RISE = 1.9, BAY = 4;
+  const DURACION = 3.4;
+
+  async function iniciar(contenedor) {
+    const canvas = contenedor.querySelector('[data-canvas]');
+    const fallback = contenedor.querySelector('[data-fallback]');
+    const etiqueta = contenedor.querySelector('[data-fase]');
+    const btnReplay = contenedor.querySelector('[data-replay]');
+    const btnRotar = contenedor.querySelector('[data-rotar]');
+    const btnVideo = contenedor.querySelector('[data-video]');
+    const btnVideoLabel = contenedor.querySelector('[data-video-label]');
+
+    let THREE, OrbitControls;
+    try {
+      THREE = await import('three');
+      OrbitControls = (await import('three/examples/jsm/controls/OrbitControls.js')).OrbitControls;
+    } catch (err) {
+      console.warn('[visor3d] no se pudo cargar three', err);
+      fallback.hidden = false;
+      canvas.style.display = 'none';
+      return;
+    }
+
+    const reducido = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const escena = new THREE.Scene();
+    const camara = new THREE.PerspectiveCamera(38, 1, 0.1, 400);
+    camara.position.set(30, 17, 31);
+
+    const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+    const controls = new OrbitControls(camara, canvas);
+    controls.target.set(L / 2, H * 0.62, W / 2);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.06;
+    controls.enablePan = false;
+    controls.minDistance = 18;
+    controls.maxDistance = 70;
+    controls.minPolarAngle = 0.25;
+    controls.maxPolarAngle = Math.PI / 2 - 0.06;
+    controls.autoRotate = false;
+    controls.autoRotateSpeed = 0.55;
+    controls.update();
+
+    escena.add(new THREE.HemisphereLight(0xf4efe5, 0x14120d, 1.15));
+
+    const sol = new THREE.DirectionalLight(0xffe2b0, 2.4);
+    sol.position.set(-18, 34, 20);
+    sol.castShadow = true;
+    sol.shadow.mapSize.set(1024, 1024);
+    sol.shadow.camera.left = -30;
+    sol.shadow.camera.right = 40;
+    sol.shadow.camera.top = 30;
+    sol.shadow.camera.bottom = -20;
+    escena.add(sol);
+
+    const contra = new THREE.DirectionalLight(0x9fb4c9, 0.55);
+    contra.position.set(26, 14, -18);
+    escena.add(contra);
+
+    const acero = new THREE.MeshStandardMaterial({ color: 0xb9af97, metalness: 0.72, roughness: 0.38 });
+    const aceroOscuro = new THREE.MeshStandardMaterial({ color: 0x6f6857, metalness: 0.6, roughness: 0.5 });
+    const ocre = new THREE.MeshStandardMaterial({ color: 0xd9a036, metalness: 0.35, roughness: 0.45 });
+
+    const grupo = new THREE.Group();
+    escena.add(grupo);
+
+    const piezas = [];
+
+    const caja = (w, h, d, mat, x, y, z, rx, rz) => {
+      const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat);
+      m.position.set(x, y, z);
+      m.rotation.x = rx || 0;
+      m.rotation.z = rz || 0;
+      m.castShadow = true;
+      m.receiveShadow = true;
+      return m;
+    };
+
+    const suelo = new THREE.Mesh(
+      new THREE.PlaneGeometry(L + 9, W + 8),
+      new THREE.MeshStandardMaterial({ color: 0x1e1b14, roughness: 1, metalness: 0 })
+    );
+    suelo.rotation.x = -Math.PI / 2;
+    suelo.position.set(L / 2, -0.02, W / 2);
+    suelo.receiveShadow = true;
+    grupo.add(suelo);
+
+    const grid = new THREE.GridHelper(Math.max(L, W) + 9, 22, 0x3a352a, 0x2a2620);
+    grid.position.set(L / 2, 0, W / 2);
+    grupo.add(grid);
+
+    const nPorticos = Math.round(L / BAY) + 1;
+    const largoViga = Math.hypot(W / 2, RISE);
+    const angulo = Math.atan2(RISE, W / 2);
+
+    for (let i = 0; i < nPorticos; i++) {
+      const x = i * BAY;
+
+      const c1 = caja(0.24, H, 0.24, acero, x, H / 2, 0);
+      const c2 = caja(0.24, H, 0.24, acero, x, H / 2, W);
+      const b1 = caja(0.5, 0.08, 0.5, ocre, x, 0.04, 0);
+      const b2 = caja(0.5, 0.08, 0.5, ocre, x, 0.04, W);
+      grupo.add(b1, b2);
+      piezas.push({ obj: b1, inicio: i * 0.26, dur: 0.3, tipo: 'correa' });
+      piezas.push({ obj: b2, inicio: i * 0.26, dur: 0.3, tipo: 'correa' });
+      grupo.add(c1, c2);
+      piezas.push({ obj: c1, inicio: i * 0.26, dur: 0.75, tipo: 'columna' });
+      piezas.push({ obj: c2, inicio: i * 0.26, dur: 0.75, tipo: 'columna' });
+
+      const v1 = caja(0.24, 0.34, largoViga, acero, x, H + RISE / 2, W / 4, angulo, 0);
+      const v2 = caja(0.24, 0.34, largoViga, acero, x, H + RISE / 2, (W * 3) / 4, -angulo, 0);
+      grupo.add(v1, v2);
+      piezas.push({ obj: v1, inicio: i * 0.26 + 0.34, dur: 0.6, tipo: 'viga' });
+      piezas.push({ obj: v2, inicio: i * 0.26 + 0.34, dur: 0.6, tipo: 'viga' });
+
+      const nodo = new THREE.Mesh(new THREE.SphereGeometry(0.16, 12, 12), ocre);
+      nodo.position.set(x, H + RISE, W / 2);
+      grupo.add(nodo);
+      piezas.push({ obj: nodo, inicio: i * 0.26 + 0.88, dur: 0.3, tipo: 'viga' });
+    }
+
+    // vigas de hombro (amarran las columnas a lo largo)
+    [0, W].forEach((z) => {
+      const vh = caja(L, 0.26, 0.26, acero, L / 2, H, z);
+      grupo.add(vh);
+      piezas.push({ obj: vh, inicio: 1.6, dur: 0.6, tipo: 'correa' });
+    });
+
+    // viga de cumbrera
+    const cumbrera = caja(L, 0.18, 0.2, acero, L / 2, H + RISE, W / 2);
+    grupo.add(cumbrera);
+    piezas.push({ obj: cumbrera, inicio: 1.75, dur: 0.6, tipo: 'correa' });
+
+    const zCorreas = [0.12, 0.3, 0.5, 0.7, 0.88].map((t) => t * W);
+    const altoCubierta = (z) => H + RISE * (1 - Math.abs(z - W / 2) / (W / 2));
+
+    zCorreas.forEach((z, idx) => {
+      const c = caja(L, 0.1, 0.12, aceroOscuro, L / 2, altoCubierta(z) + 0.12, z);
+      grupo.add(c);
+      piezas.push({ obj: c, inicio: 1.95 + idx * 0.09, dur: 0.5, tipo: 'correa' });
+    });
+
+    const puntos = [];
+    for (let i = 0; i < nPorticos - 1; i++) {
+      const x1 = i * BAY, x2 = (i + 1) * BAY;
+      puntos.push(x1, H, 0, x2, H + RISE, W / 2);
+      puntos.push(x2, H, 0, x1, H + RISE, W / 2);
+      puntos.push(x1, H, W, x2, H + RISE, W / 2);
+      puntos.push(x2, H, W, x1, H + RISE, W / 2);
+    }
+    const geoLineas = new THREE.BufferGeometry();
+    geoLineas.setAttribute('position', new THREE.Float32BufferAttribute(puntos, 3));
+    const lineas = new THREE.LineSegments(
+      geoLineas,
+      new THREE.LineBasicMaterial({ color: 0xd9a036, transparent: true, opacity: 0 })
+    );
+    grupo.add(lineas);
+
+    piezas.forEach((p) => {
+      if (p.tipo === 'columna') {
+        p.obj.scale.y = 0.0001;
+        p.obj.visible = false;
+      } else {
+        p.obj.material = p.obj.material.clone();
+        p.obj.material.transparent = true;
+        p.obj.material.opacity = 0;
+        p.obj.visible = false;
+      }
+    });
+
+    let t = reducido ? DURACION : 0;
+    let rotando = false;
+
+    const easeOut = (x) => 1 - Math.pow(1 - x, 3);
+
+    function aplicarEstado(tiempo) {
+      piezas.forEach((p) => {
+        const k = Math.max(0, Math.min(1, (tiempo - p.inicio) / p.dur));
+        const e = easeOut(k);
+        if (p.tipo === 'columna') {
+          p.obj.visible = k > 0;
+          p.obj.scale.y = Math.max(0.0001, e);
+        } else {
+          p.obj.visible = k > 0;
+          p.obj.material.opacity = e;
+        }
+      });
+
+      const kl = Math.max(0, Math.min(1, (tiempo - 2.45) / 0.9));
+      lineas.material.opacity = kl * 0.55;
+      lineas.visible = kl > 0;
+
+      const fase =
+        tiempo < 1.4 ? 'Montaje · pórticos' :
+        tiempo < 2.45 ? 'Montaje · dinteles' :
+        tiempo < DURACION ? 'Montaje · correas' : 'Estructura completa';
+      if (etiqueta.textContent !== fase) etiqueta.textContent = fase;
+    }
+
+    aplicarEstado(t);
+
+    const ajustar = () => {
+      const w = contenedor.clientWidth || 1;
+      const h = contenedor.clientHeight || 1;
+      renderer.setSize(w, h, false);
+      camara.aspect = w / h;
+      camara.updateProjectionMatrix();
+    };
+    const ro = new ResizeObserver(ajustar);
+    ro.observe(contenedor);
+    ajustar();
+
+    let visible = true;
+    const io = new IntersectionObserver((e) => { visible = e[0].isIntersecting; }, { threshold: 0.08 });
+    io.observe(contenedor);
+
+    let ultimo = performance.now();
+
+    function animar() {
+      requestAnimationFrame(animar);
+      const ahora = performance.now();
+      const dt = Math.min(0.05, (ahora - ultimo) / 1000);
+      ultimo = ahora;
+
+      if (!visible || document.hidden) return;
+
+      if (t < DURACION) {
+        t = Math.min(DURACION, t + dt);
+        aplicarEstado(t);
+      }
+
+      controls.autoRotate = rotando && t >= DURACION;
+      controls.update();
+      renderer.render(escena, camara);
+    }
+    animar();
+
+    btnReplay.addEventListener('click', () => {
+      t = 0;
+      aplicarEstado(0);
+      groupReset();
+    });
+
+    function groupReset() {
+      grupo.rotation.y = 0;
+      controlesReset();
+    }
+
+    function controlesReset() {
+      camara.position.set(30, 17, 31);
+      controls.target.set(L / 2, H * 0.62, W / 2);
+      controls.update();
+    }
+
+    btnRotar.addEventListener('click', () => {
+      rotando = !rotando;
+      btnRotar.setAttribute('aria-pressed', String(rotando));
+      btnRotar.classList.toggle('is-off', !rotando);
+    });
+
+    /* ---------- grabación de video ---------- */
+    let grabando = false;
+
+    if (btnVideo) {
+      const soportado = typeof MediaRecorder !== 'undefined' && typeof canvas.captureStream === 'function';
+      if (!soportado) {
+        btnVideo.hidden = true;
+      } else {
+        btnVideo.addEventListener('click', () => {
+          if (grabando) return;
+
+          const tipos = ['video/mp4;codecs=avc1.42E01E', 'video/webm;codecs=vp9', 'video/webm;codecs=vp8', 'video/webm'];
+          const mime = tipos.find((tp) => {
+            try { return MediaRecorder.isTypeSupported(tp); } catch { return false; }
+          });
+          if (!mime) { btnVideo.hidden = true; return; }
+
+          // fondo sólido para que el video no salga con transparencia
+          const fondoPrevio = escena.background;
+          escena.background = new THREE.Color(0x14120d);
+
+          const stream = canvas.captureStream(30);
+          const trozos = [];
+          const rec = new MediaRecorder(stream, { mimeType: mime, videoBitsPerSecond: 8_000_000 });
+
+          rec.ondataavailable = (e) => { if (e.data && e.data.size) trozos.push(e.data); };
+
+          rec.onstop = () => {
+            stream.getTracks().forEach((tr) => tr.stop());
+            escena.background = fondoPrevio;
+            const blob = new Blob(trozos, { type: mime });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'lartol-galpon-3d.' + (mime.includes('mp4') ? 'mp4' : 'webm');
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            setTimeout(() => URL.revokeObjectURL(url), 2000);
+
+            grabando = false;
+            btnVideo.classList.remove('is-rec');
+            if (btnVideoLabel) btnVideoLabel.textContent = 'Video descargado';
+            setTimeout(() => { if (btnVideoLabel) btnVideoLabel.textContent = 'Grabar video'; }, 3000);
+          };
+
+          // reiniciar montaje y rotación para el clip
+          t = 0;
+          aplicarEstado(0);
+          rotando = true;
+          btnRotar.setAttribute('aria-pressed', 'true');
+          btnRotar.classList.remove('is-off');
+
+          grabando = true;
+          btnVideo.classList.add('is-rec');
+          rec.start();
+
+          const inicio = performance.now();
+          const total = 10000;
+          const tick = setInterval(() => {
+            const seg = Math.min(total, performance.now() - inicio) / 1000;
+            if (btnVideoLabel) btnVideoLabel.textContent = 'Grabando ' + seg.toFixed(0) + 's';
+            if (seg * 1000 >= total) clearInterval(tick);
+          }, 250);
+
+          setTimeout(() => { clearInterval(tick); if (rec.state !== 'inactive') rec.stop(); }, total);
+        });
+      }
+    }
+
+    canvas.addEventListener('pointerdown', () => contenedor.classList.add('is-drag'));
+    window.addEventListener('pointerup', () => contenedor.classList.remove('is-drag'));
+    document.addEventListener('visibilitychange', () => { ultimo = performance.now(); });
+  }
+
+  document.querySelectorAll('[data-visor]').forEach((c) => {
+    let cargado = false;
+    const io = new IntersectionObserver((entradas) => {
+      if (entradas[0].isIntersecting && !cargado) {
+        cargado = true;
+        io.disconnect();
+        iniciar(c);
+      }
+    }, { rootMargin: '240px' });
+    io.observe(c);
+  });
+</script>

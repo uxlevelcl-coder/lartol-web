@@ -1,0 +1,119 @@
+# LARTOL · Ingeniería, Montaje y Diseño
+
+Sitio de una página construido en **Astro 5** (HTML estático, sin backend).
+
+**Sistema visual:** editorial industrial — grafito cálido `#14120D`, hueso `#F4EFE5`,
+ocre `#D9A036`; tipografía Archivo (display/UI) + JetBrains Mono (datos); radios en 0;
+contenedor 1260 px; hero full-bleed con fotografía y nav transparente.
+
+## Comandos
+
+```bash
+npm install       # una vez
+npm run dev       # http://localhost:4321 con recarga en caliente
+npm run build     # genera /dist  (esto es lo que se publica)
+npm run preview   # sirve /dist en local
+```
+
+## Dónde se edita cada cosa
+
+| Qué | Archivo |
+|---|---|
+| Teléfono, correo, RUT, razón social, años | `src/data/site.ts` |
+| Orden del menú | `src/data/site.ts` → `nav` |
+| Textos de cada sección | `src/components/<Sección>.astro` (arriba, en el bloque `---`) |
+| Colores, tipografía, espaciados | `src/styles/global.css` → `:root` |
+| SEO, Open Graph, JSON-LD | `src/layouts/Site.astro` |
+| Imagen para compartir (1200×630) | `public/og.jpg` (fuente editable: `og-source.html`) |
+
+**Todo el contacto vive en `src/data/site.ts`.** No hay números ni correos escritos
+a mano en los componentes: se cambian una vez y se replican en header, hero, formulario y footer.
+
+## Marca
+
+El logo es vectorial (SVG) y vive en `public/img/`:
+
+| Archivo | Uso |
+|---|---|
+| `logo-lartol.svg` | Completo, tinta oscura — fondos claros (documentos, cotizaciones, web) |
+| `logo-lartol-claro.svg` | Completo, tinta hueso — footer y fondos oscuros |
+| `logo-lartol-corto.svg` | Sin la bajada, tinta oscura |
+| `logo-lartol-corto-claro.svg` | Sin la bajada, tinta hueso — **header y menú** |
+| `isotipo-lartol.svg` | Solo la marca (L + triángulo) |
+| `favicon.svg` | Isotipo sobre grafito, 440×320 |
+
+**Colores oficiales:** tinta `#1E1E21`, naranja `#F0842C`. El sitio usa esos valores en
+`--ink` y `--accent`.
+
+**Regla de uso:** sobre fondos oscuros va la versión `-claro`; sobre fondos claros, la de tinta
+oscura. Distancia mínima de resguardo: el alto de la "L" del isotipo. No deformar, no recolorear
+fuera de las dos tintas, no poner sobre fotos sin velo.
+
+## Imágenes
+
+Las fotos de la galería y del hero están en `public/img/obras/` (webp, 1200-1376 px).
+Son **imágenes de referencia de tipología**, no obras de LARTOL: la nota al pie de la
+galería lo declara y debe mantenerse hasta reemplazarlas por fotos propias autorizadas.
+
+Además hay un **isométrico técnico en SVG** generado por código
+(`gen_iso.py` → `public/img/iso-galpon.svg`, 12 KB, escalable, sin licencias).
+
+```bash
+python gen_iso.py      # regenera el isométrico (largo, ancho, alto, separación entre pórticos)
+```
+
+Se usa en dos lugares: flotando en el hero y a sangre en la sección `#obra`.
+Parámetros en la cabecera del script (`L`, `W`, `H`, `RISE`, `BAY`).
+
+Para reemplazarlo por fotografía real de obra: dejar los archivos en `public/img/` y cambiar
+el `<img>` de `Hero.astro` y `Obra.astro`. Formato recomendado: 1600 px de ancho, `.webp`
+(calidad 82), y aplicar un velo azul para que no rompa la paleta.
+
+## Visor 3D (`#modelo`)
+
+El modelo del galpón se genera **por código con three.js**, no es un archivo importado:
+`src/components/Visor3D.astro` construye 7 pórticos, correas, cumbrera, arriostramientos y
+placas de base, y los monta en secuencia (columnas → dinteles → correas).
+
+- **Carga diferida:** `three` (736 KB) y `OrbitControls` viven en chunks aparte y solo se piden
+  cuando la sección entra al viewport. No afectan el primer render.
+- **Sin rotación automática:** el modelo arranca quieto; el botón "Rotación" la activa.
+- **Accesible:** respeta `prefers-reduced-motion` (aparece montado, sin animación),
+  pausa el render cuando la sección no está visible o la pestaña está oculta,
+  y muestra un fallback si no hay WebGL.
+- **Cambiar medidas:** constantes `L`, `W`, `H`, `RISE`, `BAY` al inicio del `<script>`.
+
+Para publicar el modelo con tus propias medidas basta editar esas constantes; no requiere
+modelos glTF ni assets externos.
+
+## Pendientes antes de publicar
+
+1. **Registrar el dominio.** `lartol.cl` no existe en NIC Chile (verificado 02-11-2026).
+   Alternativas a revisar: `lartolingenieria.cl`, `lartol.com`.
+2. **Reemplazar en `src/data/site.ts`:** `telefono`, `telefonoLink`, `whatsapp`, `email`, `rut`.
+   Los valores actuales son marcadores (`+56 9 0000 0000`, `PENDIENTE`).
+3. **Levantar el buzón** `contacto@lartol.cl` antes de publicar el formulario.
+4. **Logo definitivo.** Hoy la marca es un wordmark tipográfico + el bloque "LT" en naranja.
+5. **Fotos de obra.** Si se suman, reemplazan el plano vectorial del hero.
+
+## Formulario
+
+No usa backend: arma un `mailto:` con los datos y abre el cliente de correo del visitante,
+con un segundo botón que envía el mismo resumen por WhatsApp.
+
+- Si se publica en **Netlify**: agregar `data-netlify="true"` y `name="cotizacion"` al `<form>`
+  y quitar el `preventDefault`, para recibir los envíos en el panel.
+- Si se publica en **Cloudflare Pages**: dejar como está, o conectar un endpoint propio.
+
+## Publicación
+
+```bash
+npm run build
+# Netlify: arrastrar la carpeta dist/  |  Cloudflare Pages: build "npm run build", output "dist"
+```
+
+## Verificado
+
+- `npm run build` sin errores ni warnings.
+- Playwright 1440 / 1024 / 390 px: sin scroll horizontal, un solo `h1`, 0 placeholders, 0 anclas muertas.
+- Tabs de servicios y validación del formulario funcionando.

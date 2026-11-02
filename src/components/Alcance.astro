@@ -1,0 +1,78 @@
+---
+const disciplinas = [
+  'Ingeniería de detalle',
+  'Estructuras metálicas',
+  'Piping y HDPE',
+  'Montaje mecánico',
+  'Montaje eléctrico',
+  'Habilitación de faena',
+  'Comisionamiento',
+  'Obra civil',
+];
+
+const capacidad = [
+  {
+    num: '01',
+    title: 'Oficina técnica que resiste revisión',
+    text: 'Memoria de cálculo, planos de fabricación, cubicaciones y especificaciones técnicas con control de documentos. Entregables listos para licitar, fabricar o construir.',
+    foot: 'Ingeniería de detalle',
+  },
+  {
+    num: '02',
+    title: 'Montaje con ventanas cortas',
+    text: 'Secuencia de izaje, análisis de riesgo por tarea, permisos de trabajo y reporte diario de avance. Programamos sobre la ventana que da el mandante, no sobre la que nos acomoda.',
+    foot: 'Montaje industrial',
+  },
+  {
+    num: '03',
+    title: 'Habilitación de faena lista para operar',
+    text: 'Casinos, oficinas de obra, lockers, salas de descanso, mobiliario técnico y urbanización. Entregamos con la acreditación de personal resuelta.',
+    foot: 'Habilitación y obras menores',
+  },
+  {
+    num: '04',
+    title: 'Comisionamiento documentado',
+    text: 'Protocolos de prueba, listas de verificación, registro de mediciones y carpeta de entrega. La obra queda operable y auditable, no solo terminada.',
+    foot: 'Puesta en marcha',
+  },
+];
+---
+
+<div class="band" aria-hidden="true">
+  <div class="band__track">
+    {[0, 1].map(() => (
+      <>
+        {disciplinas.map((d) => (<span>{d} <b>◆</b></span>))}
+      </>
+    ))}
+  </div>
+</div>
+
+<section class="section bg-soft" id="alcance">
+  <div class="wrap">
+    <div class="sec-head" data-reveal>
+      <div>
+        <span class="eyebrow">Lo que compra un mandante</span>
+        <h2>No compra horas de ingeniero: compra una obra que se sostiene.</h2>
+      </div>
+      <p class="lead">
+        El alcance se cierra por escrito antes de movilizar. Cuatro frentes de trabajo que
+        se pueden contratar juntos o por separado, con un responsable técnico identificado
+        en cada uno.
+      </p>
+    </div>
+
+    <div class="grid-4">
+      {capacidad.map((c) => (
+        <article class="card" data-reveal>
+          <span class="card__num">{c.num}</span>
+          <h3>{c.title}</h3>
+          <p>{c.text}</p>
+          <div class="card__foot">
+            <span class="mono-label">{c.foot}</span>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

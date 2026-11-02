@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="es-CL">
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{width:1200px;height:630px;background:#14120D;font-family:'IBM Plex Sans',sans-serif;color:#fff;overflow:hidden;position:relative}
+  .grid{position:absolute;inset:0;background-image:linear-gradient(rgba(207,225,242,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(207,225,242,.07) 1px,transparent 1px);background-size:48px 48px}
+  .in{position:relative;padding:64px 72px;height:100%;display:flex;flex-direction:column;justify-content:space-between}
+  .brand{display:flex;align-items:center;gap:16px}
+  .mark{width:56px;height:56px;background:#F0842C;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-size:24px;font-weight:600}
+  .name{font-size:30px;font-weight:700;letter-spacing:.1em}
+  .sub{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.2em;color:#CFC6B2;margin-top:5px}
+  h1{font-size:76px;line-height:1.02;letter-spacing:-.03em;max-width:15ch}
+  h1 em{font-style:normal;color:#CFC6B2}
+  .foot{display:flex;justify-content:space-between;align-items:flex-end;border-top:1px solid rgba(207,225,242,.25);padding-top:26px}
+  .foot p{font-size:20px;color:#CFE1F2;max-width:46ch}
+  .tag{font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.16em;color:#F0842C;text-align:right}
+  svg.plan{position:absolute;right:-40px;top:120px;width:520px;opacity:.5}
+</style>
+</head>
+<body>
+<div class="grid"></div>
+<svg class="plan" viewBox="0 0 560 400">
+  <g stroke="#7FA8CE" stroke-width="2" fill="none">
+    <polyline points="110,320 280,180 450,320"/>
+    <line x1="110" y1="320" x2="450" y2="320"/>
+    <line x1="110" y1="320" x2="110" y2="400"/>
+    <line x1="450" y1="320" x2="450" y2="400"/>
+  </g>
+  <g stroke="#4C7BA6" stroke-width="1.6" fill="none">
+    <line x1="160" y1="320" x2="160" y2="261"/><line x1="215" y1="320" x2="215" y2="198"/>
+    <line x1="270" y1="320" x2="270" y2="192"/><line x1="325" y1="320" x2="325" y2="198"/>
+    <line x1="380" y1="320" x2="380" y2="261"/>
+    <line x1="110" y1="320" x2="160" y2="261"/><line x1="160" y1="261" x2="215" y2="320"/>
+    <line x1="215" y1="320" x2="270" y2="192"/><line x1="270" y1="192" x2="325" y2="320"/>
+    <line x1="325" y1="320" x2="380" y2="261"/><line x1="380" y1="261" x2="450" y2="320"/>
+  </g>
+  <g fill="#F0842C"><circle cx="110" cy="320" r="6"/><circle cx="450" cy="320" r="6"/><circle cx="280" cy="180" r="6"/></g>
+</svg>
+<div class="in">
+  <div class="brand">
+    <img src="file:///C:/Users/elect/Documents/Proyectos/lartol-astro/public/img/logo-lartol-corto-claro.svg" style="height:56px" alt="LARTOL">
+  </div>
+  <h1>Ingeniería y montaje <em>sin improvisación</em>.</h1>
+  <div class="foot">
+    <p>Estructuras metálicas, montaje industrial y habilitación de faena para minería, energía y agua.</p>
+    <div class="tag">LARTOL.CL</div>
+  </div>
+</div>
+</body>
+</html>
