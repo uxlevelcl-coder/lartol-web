@@ -29,6 +29,33 @@ npm run preview   # sirve /dist en local
 **Todo el contacto vive en `src/data/site.ts`.** No hay números ni correos escritos
 a mano en los componentes: se cambian una vez y se replican en header, hero, formulario y footer.
 
+## Escala de espaciado (regla de 8)
+
+Todo el espaciado del sitio usa múltiplos de 8 px, con 4 px como medio paso permitido.
+Los tokens están en `:root` de `src/styles/global.css`:
+
+| Token | Valor | Uso |
+|---|---|---|
+| `--s-0` | 4 px | medio paso: separación mínima entre label y campo |
+| `--s-1` | 8 px | gaps internos de listas y chips |
+| `--s-2` | 16 px | padding de campos, separación entre textos |
+| `--s-3` | 24 px | padding de tarjetas, gaps de grilla |
+| `--s-4` | 32 px | separación entre bloques dentro de una sección |
+| `--s-5` | 40 px | — |
+| `--s-6` | 48 px | alto de botón grande |
+| `--s-7` | 56 px | — |
+| `--s-8` | 64 px | — |
+| `--s-9` | 80 px | — |
+| `--s-10` | 96 px | padding vertical de sección (mobile) |
+| `--s-11` | 128 px | padding vertical de sección (desktop) |
+
+**Regla:** al agregar o editar una sección, cualquier `padding`, `margin`, `gap` o
+`min-height` nuevo debe salir de esta escala. Los únicos valores fuera de escala permitidos
+son los bordes (1-2 px) y las medidas de componentes gráficos (anchos máximos, aspect ratios).
+
+**Excepción documentada:** los objetivos táctiles usan 48 px (no 44) para caer en la escala
+y seguir cumpliendo el mínimo WCAG de 44 px.
+
 ## Marca
 
 El logo es vectorial (SVG) y vive en `public/img/`:
