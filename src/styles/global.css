@@ -240,7 +240,7 @@ p { margin: 0; }
   position: relative;
   max-width: var(--wrap);   /* misma regla de ancho que el contenido */
   margin: 0 auto;
-  padding: 11px var(--pad);
+  padding: 17px var(--pad);
   display: flex;
   align-items: center;
   gap: 24px;
@@ -329,6 +329,7 @@ p { margin: 0; }
 
 @media (max-width: 1079px) {
   .brand { min-height: 44px; }
+  .site-header__in { padding-block: 13px; }
   .site-header { background: rgba(20, 18, 13, .94); backdrop-filter: blur(14px); }
   .nav { display: none; }
   .header-wa { display: none; }
@@ -1340,5 +1341,5 @@ table.model tbody tr:hover td { background: var(--accent-wash); }
   .grid-2.is-in > *, .grid-3.is-in > *, .grid-4.is-in > *, .sectors.is-in > *, .gal.is-in > * { animation: none; }
 }
 
-section[id] { scroll-margin-top: 84px; }
+section[id] { scroll-margin-top: 96px; }
 @media (max-width: 1079px) { section[id] { scroll-margin-top: 104px; } }
