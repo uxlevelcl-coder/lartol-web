@@ -13,7 +13,7 @@ export const site = {
   bajada: 'Ingeniería · Montaje · Diseño',
   razonSocial: 'LARTOL Ingeniería, Montaje y Diseño SpA',
   rut: 'PENDIENTE',                       // ej. 78.123.456-7
-  dominio: 'https://lartol.cl',
+  dominio: 'https://uxlevelcl-coder.github.io/lartol-web',  // cambiar a https://lartol.cl al registrar el dominio
   email: 'contacto@lartol.cl',            // PENDIENTE: confirmar buzón real
   telefono: '+56 9 0000 0000',            // PENDIENTE
   telefonoLink: '+56900000000',           // PENDIENTE

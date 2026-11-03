@@ -48,7 +48,7 @@ export type Proyecto = {
 
 // Para ver la sección con datos de muestra mientras se cargan los reales,
 // cambiar a true. Nunca publicar con esto en true.
-export const MOSTRAR_EJEMPLO = false;
+export const MOSTRAR_EJEMPLO = true;
 
 export const proyectos: Proyecto[] = [
   // Agregar aquí las obras reales.

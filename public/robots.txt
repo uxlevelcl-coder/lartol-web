@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://lartol.cl/sitemap-index.xml
+Sitemap: https://uxlevelcl-coder.github.io/lartol-web/sitemap-index.xml
