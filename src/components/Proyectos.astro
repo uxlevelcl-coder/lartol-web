@@ -2,9 +2,12 @@
 import { base } from '../data/site';
 import { proyectos, MOSTRAR_EJEMPLO } from '../data/proyectos';
 import { ejemplo } from '../data/proyectos.ejemplo';
+import { traerProyectos } from '../lib/sanity';
 
-// Sin proyectos cargados la sección no se renderiza (no deja huecos).
-const lista = proyectos.length > 0 ? proyectos : (MOSTRAR_EJEMPLO ? ejemplo : []);
+// Orden de fuentes: locales → Sanity (CMS) → ejemplos si están activados.
+// Así la sección nunca desaparece si el CMS no responde.
+const delCms = await traerProyectos();
+const lista = proyectos.length > 0 ? proyectos : delCms.length > 0 ? delCms : (MOSTRAR_EJEMPLO ? ejemplo : []);
 ---
 
 {lista.length > 0 && (
@@ -26,7 +29,7 @@ const lista = proyectos.length > 0 ? proyectos : (MOSTRAR_EJEMPLO ? ejemplo : []
         {lista.map((p) => (
           <button class={`proy__card${p.destacado ? ' proy__card--dest' : ''}`} type="button" data-abrir={p.id} aria-label={`Ver el proyecto ${p.titulo}`}>
             <img
-              src={`${base}${p.imagen}`}
+              src={p.imagen.startsWith('http') ? p.imagen : `${base}${p.imagen}`}
               alt={`${p.titulo} — ${p.disciplina}`}
               width="1000" height="1250" loading="lazy"
             />
@@ -62,7 +65,7 @@ const lista = proyectos.length > 0 ? proyectos : (MOSTRAR_EJEMPLO ? ejemplo : []
           <h3 class="modal__titulo" id={`modal-${p.id}-titulo`}>{p.titulo}</h3>
 
           <figure class="modal__media">
-            <img src={`${base}${p.imagen}`} alt={`${p.titulo} — ${p.disciplina}`} loading="lazy" />
+            <img src={p.imagen.startsWith('http') ? p.imagen : `${base}${p.imagen}`} alt={`${p.titulo} — ${p.disciplina}`} loading="lazy" />
           </figure>
 
           <div class="modal__grid">

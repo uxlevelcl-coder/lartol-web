@@ -27,3 +27,8 @@ ov.json
 # sistema
 .DS_Store
 Thumbs.db
+
+# Sanity Studio
+studio/node_modules/
+studio/dist/
+studio/.sanity/
