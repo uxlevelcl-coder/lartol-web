@@ -12,56 +12,33 @@ const lista = proyectos.length > 0 ? proyectos : (MOSTRAR_EJEMPLO ? ejemplo : []
     <div class="wrap">
       <div class="sec-head" data-reveal>
         <div>
-          <span class="eyebrow">Proyectos</span>
-          <h2>Obras ejecutadas, con su ficha técnica.</h2>
+          <span class="eyebrow">Experiencia</span>
+          <h2>Proyectos y mandantes destacados.</h2>
         </div>
         <p class="lead">
-          Cada proyecto indica disciplina, alcance y rol ejecutado. Los datos de superficie,
-          tonelaje y plazo salen de los antecedentes de la obra, no de una estimación.
+          Obras para minería, industria, infraestructura y edificación: galpones, montajes,
+          obras civiles y estructuras metálicas. Cada ficha indica la disciplina, el rol
+          ejecutado y qué se resolvió en terreno.
         </p>
       </div>
 
       <div class="proy">
         {lista.map((p) => (
-          <article class={`proy__item${p.destacado ? ' proy__item--dest' : ''}`} data-reveal>
-            <figure class="proy__media">
-              <img
-                src={`${base}${p.imagen}`}
-                alt={`${p.titulo} — ${p.disciplina}`}
-                width="1000"
-                height="625"
-                loading="lazy"
-              />
-              <figcaption>
-                <span>{p.disciplina}</span>
-                <span>{p.anio}</span>
-              </figcaption>
-            </figure>
+          <button class={`proy__card${p.destacado ? ' proy__card--dest' : ''}`} type="button" data-abrir={p.id} aria-label={`Ver el proyecto ${p.titulo}`}>
+            <img
+              src={`${base}${p.imagen}`}
+              alt={`${p.titulo} — ${p.disciplina}`}
+              width="1000" height="1250" loading="lazy"
+            />
+            <span class="proy__shade" aria-hidden="true"></span>
 
-            <div class="proy__body">
-              <h3>{p.titulo}</h3>
-              <p class="proy__alcance">{p.desafio}</p>
-
-              {p.datos.length > 0 && (
-                <dl class="proy__datos">
-                  {p.datos.map(([k, v]) => (
-                    <div>
-                      <dt>{k}</dt>
-                      <dd>{v}</dd>
-                    </div>
-                  ))}
-                </dl>
-              )}
-
-              <div class="proy__foot">
-                <button class="btn btn--ink btn--sm" type="button" data-abrir={p.id}>
-                  Ver qué se hizo
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" style="width:14px;height:14px"><path d="M5 12h13M13 6l6 6-6 6"/></svg>
-                </button>
-                <span class="proy__rol"><b>Rol</b> {p.rol}</span>
-              </div>
-            </div>
-          </article>
+            <span class="proy__body">
+              <span class="proy__chip">{p.disciplina}</span>
+              <span class="proy__titulo">{p.titulo}</span>
+              <span class="proy__sub">{p.mandante ?? p.ubicacion}</span>
+              <span class="proy__more">Ver qué se hizo <i aria-hidden="true">→</i></span>
+            </span>
+          </button>
         ))}
       </div>
 

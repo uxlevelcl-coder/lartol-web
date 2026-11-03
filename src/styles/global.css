@@ -1053,67 +1053,95 @@ table.model tbody tr:hover td { background: var(--accent-wash); }
 }
 
 
-/* ---------- Proyectos ---------- */
+/* ---------- Proyectos (grilla de tarjetas) ---------- */
 
-.proy { display: grid; gap: 40px; }
-.proy__item {
+.proy {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
-  gap: clamp(24px, 4vw, 56px);
-  align-items: center;
-  background: var(--paper);
-  border: 1px solid var(--line);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
 }
-.proy__item--dest { border-color: var(--accent); }
-.proy__media {
+.proy__card {
   position: relative;
-  margin: 0;
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 4;
   overflow: hidden;
+  border: 0;
+  padding: 0;
   background: var(--dark-2);
-  align-self: stretch;
-  min-height: 320px;
+  cursor: pointer;
+  text-align: left;
+  color: var(--bone);
 }
-.proy__media img {
+.proy__card img {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  display: block;
-  transition: transform .5s cubic-bezier(.22,1,.36,1);
+  transition: transform .7s cubic-bezier(.22, 1, .36, 1);
 }
-.proy__item:hover .proy__media img { transform: scale(1.04); }
-.proy__media figcaption {
-  position: absolute; left: 0; right: 0; bottom: 0;
-  padding: 48px 16px 16px;
-  background: linear-gradient(to top, rgba(20,18,13,.94) 0%, rgba(20,18,13,.7) 40%, transparent 100%);
-  font-family: var(--mono); font-size: 10px; letter-spacing: .16em;
-  text-transform: uppercase; color: var(--bone);
-  display: flex; justify-content: space-between; gap: 16px;
+.proy__card:hover img,
+.proy__card:focus-visible img { transform: scale(1.05); }
+.proy__shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top,
+    rgba(12, 11, 8, .96) 0%,
+    rgba(12, 11, 8, .72) 38%,
+    rgba(12, 11, 8, .18) 72%,
+    rgba(12, 11, 8, .05) 100%);
+  transition: opacity .3s ease;
 }
-.proy__body { padding: clamp(24px, 3vw, 40px); padding-left: clamp(8px, 2vw, 24px); }
-.proy__body h3 { max-width: 24ch; }
-.proy__alcance { font-size: 14.5px; line-height: 1.6; color: var(--body); margin-top: 16px; max-width: 56ch; }
-.proy__datos {
-  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1px; background: var(--line); border: 1px solid var(--line);
-  margin: 24px 0;
+.proy__card:hover .proy__shade { opacity: .92; }
+
+.proy__body {
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
 }
-.proy__datos > div { background: var(--paper); padding: 16px; }
-.proy__datos dt {
-  font-family: var(--mono); font-size: 9.5px; letter-spacing: .14em;
-  text-transform: uppercase; color: var(--accent-deep);
+.proy__chip {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--ink);
+  background: var(--accent);
+  padding: 6px 10px;
 }
-.proy__datos dd { margin: 8px 0 0; font-size: 15px; font-weight: 600; color: var(--ink); }
-.proy__foot {
-  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
-  gap: 16px; padding-top: 24px; border-top: 1px solid var(--line);
+.proy__titulo {
+  font-size: clamp(18px, 1.55vw, 22px);
+  font-weight: 700;
+  letter-spacing: -.02em;
+  line-height: 1.14;
+  color: #fff;
 }
-.proy__rol { font-size: 12.5px; color: var(--muted); }
-.proy__rol b {
-  font-family: var(--mono); font-size: 9.5px; letter-spacing: .14em;
-  text-transform: uppercase; color: var(--accent-deep); margin-right: 8px;
+.proy__sub { font-size: 12.5px; color: var(--sand); line-height: 1.4; }
+.proy__more {
+  margin-top: 8px;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--accent);
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity .25s ease, transform .25s ease;
 }
+.proy__more i { font-style: normal; margin-left: 4px; }
+.proy__card:hover .proy__more,
+.proy__card:focus-visible .proy__more { opacity: 1; transform: none; }
+
+@media (max-width: 980px) {
+  .proy { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  /* sin hover: la acción se muestra siempre */
+  .proy__more { opacity: 1; transform: none; }
+}
+@media (max-width: 600px) { .proy { grid-template-columns: 1fr; } .proy__card { aspect-ratio: 4 / 3; } }
 
 /* ---------- Modal de proyecto ---------- */
 
