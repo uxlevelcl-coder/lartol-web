@@ -30,7 +30,7 @@ export const waLink = `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(
 
 export const nav = [
   { href: '#servicios', label: 'Servicios' },
-  { href: '#obras', label: 'Obras' },
+  { href: '#proyectos', label: 'Obras' },
   { href: '#modelos', label: 'Contratación' },
   { href: '#proceso', label: 'Método' },
   { href: '#contacto', label: 'Contacto' },
@@ -40,7 +40,7 @@ export const nav = [
 export const navCompleto = [
   { href: '#alcance', label: 'Alcance' },
   { href: '#servicios', label: 'Servicios' },
-  { href: '#obras', label: 'Obras' },
+  { href: '#proyectos', label: 'Obras' },
   { href: '#modelos', label: 'Contratación' },
   { href: '#proceso', label: 'Método' },
   { href: '#estandares', label: 'Estándares' },
