@@ -4,6 +4,12 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  # Rebuild periódico para recoger cambios hechos en Sanity
+  schedule:
+    - cron: '0 */6 * * *'
+  # Permite disparar el build desde Sanity con un webhook
+  repository_dispatch:
+    types: [sanity-update]
 
 permissions:
   contents: read
