@@ -29,6 +29,45 @@ npm run preview   # sirve /dist en local
 **Todo el contacto vive en `src/data/site.ts`.** No hay números ni correos escritos
 a mano en los componentes: se cambian una vez y se replican en header, hero, formulario y footer.
 
+## Sanity (CMS de proyectos)
+
+Los proyectos se editan en Sanity, no en el código.
+
+| Dato | Valor |
+|---|---|
+| Proyecto | `2gmzeay7` |
+| Dataset | `lartol` (lectura pública, escritura con token) |
+| Studio | `studio/` |
+| Consulta | `src/lib/sanity.ts` (GROQ, se ejecuta en cada build) |
+
+**Editar proyectos:** abre el Studio y entra con la cuenta que es administradora del proyecto.
+
+```bash
+cd studio
+npm run dev        # http://localhost:3333
+```
+
+**Publicar el Studio** (una sola vez, requiere login interactivo):
+
+```bash
+cd studio
+npx sanity login
+npx sanity deploy   # queda en https://lartol.sanity.studio
+```
+
+**Cómo llegan los datos al sitio:** en cada build, `traerProyectos()` consulta el dataset. Si
+Sanity no responde, el build no falla: cae a `src/data/proyectos.ts` y luego a
+`src/data/proyectos.ejemplo.ts`. El sitio nunca se queda sin la sección.
+
+**Orden de las tarjetas:** campo `orden` (menor primero). El campo `destacado` está disponible
+para resaltar una obra.
+
+**Token:** el token de escritura vive solo en `.env` (ignorado por git). No se commitea y el
+build de GitHub Actions no lo necesita porque el dataset es de lectura pública.
+
+**Campos obligatorios por proyecto:** título, disciplina, ubicación, año, imagen, rol y
+"qué había que resolver". Sin eso el documento no se publica bien.
+
 ## Escala de espaciado (regla de 8)
 
 Todo el espaciado del sitio usa múltiplos de 8 px, con 4 px como medio paso permitido.
