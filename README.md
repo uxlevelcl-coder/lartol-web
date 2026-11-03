@@ -68,6 +68,37 @@ build de GitHub Actions no lo necesita porque el dataset es de lectura pública.
 **Campos obligatorios por proyecto:** título, disciplina, ubicación, año, imagen, rol y
 "qué había que resolver". Sin eso el documento no se publica bien.
 
+### Cuándo se publica un cambio
+
+El sitio es estático: editar en Sanity no cambia la web al instante. El HTML se regenera en
+cada build, y hay tres disparadores:
+
+| Disparador | Cuándo |
+|---|---|
+| `push` a `main` | al subir código |
+| `schedule` | cada 15 minutos |
+| `workflow_dispatch` | manual, desde la pestaña Actions |
+
+**Webhook directo Sanity → GitHub: descartado.** La API de GitHub `repository_dispatch` exige
+un body con `event_type`, y el webhook de Sanity envía su propio payload sin ese campo, así que
+la entrega se rechaza. Para tener publicación instantánea hace falta un proxy (Cloudflare Worker
+de ~10 líneas) que traduzca el payload:
+
+```js
+export default {
+  async fetch(req, env) {
+    await fetch('https://api.github.com/repos/uxlevelcl-coder/lartol-web/dispatches', {
+      method: 'POST',
+      headers: { authorization: `Bearer ${env.GH_TOKEN}`, accept: 'application/vnd.github+json' },
+      body: JSON.stringify({ event_type: 'sanity-update' }),
+    });
+    return new Response('ok');
+  },
+};
+```
+
+Mientras no exista ese proxy, el ciclo de 15 minutos cubre el caso normal.
+
 ## Escala de espaciado (regla de 8)
 
 Todo el espaciado del sitio usa múltiplos de 8 px, con 4 px como medio paso permitido.

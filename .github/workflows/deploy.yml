@@ -6,7 +6,8 @@ on:
   workflow_dispatch:
   # Rebuild periódico para recoger cambios hechos en Sanity
   schedule:
-    - cron: '0 */6 * * *'
+    # Cada 15 minutos: recoge los cambios publicados en Sanity
+    - cron: '*/15 * * * *'
   # Permite disparar el build desde Sanity con un webhook
   repository_dispatch:
     types: [sanity-update]
