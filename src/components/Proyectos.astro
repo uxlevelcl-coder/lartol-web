@@ -1,0 +1,158 @@
+---
+import { base } from '../data/site';
+import { proyectos, MOSTRAR_EJEMPLO } from '../data/proyectos';
+import { ejemplo } from '../data/proyectos.ejemplo';
+
+// Sin proyectos cargados la sección no se renderiza (no deja huecos).
+const lista = proyectos.length > 0 ? proyectos : (MOSTRAR_EJEMPLO ? ejemplo : []);
+---
+
+{lista.length > 0 && (
+  <section class="section bg-soft" id="proyectos">
+    <div class="wrap">
+      <div class="sec-head" data-reveal>
+        <div>
+          <span class="eyebrow">Proyectos</span>
+          <h2>Obras ejecutadas, con su ficha técnica.</h2>
+        </div>
+        <p class="lead">
+          Cada proyecto indica disciplina, alcance y rol ejecutado. Los datos de superficie,
+          tonelaje y plazo salen de los antecedentes de la obra, no de una estimación.
+        </p>
+      </div>
+
+      <div class="proy">
+        {lista.map((p) => (
+          <article class={`proy__item${p.destacado ? ' proy__item--dest' : ''}`} data-reveal>
+            <figure class="proy__media">
+              <img
+                src={`${base}${p.imagen}`}
+                alt={`${p.titulo} — ${p.disciplina}`}
+                width="1000"
+                height="625"
+                loading="lazy"
+              />
+              <figcaption>
+                <span>{p.disciplina}</span>
+                <span>{p.anio}</span>
+              </figcaption>
+            </figure>
+
+            <div class="proy__body">
+              <h3>{p.titulo}</h3>
+              <p class="proy__alcance">{p.desafio}</p>
+
+              {p.datos.length > 0 && (
+                <dl class="proy__datos">
+                  {p.datos.map(([k, v]) => (
+                    <div>
+                      <dt>{k}</dt>
+                      <dd>{v}</dd>
+                    </div>
+                  ))}
+                </dl>
+              )}
+
+              <div class="proy__foot">
+                <button class="btn btn--ink btn--sm" type="button" data-abrir={p.id}>
+                  Ver qué se hizo
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" style="width:14px;height:14px"><path d="M5 12h13M13 6l6 6-6 6"/></svg>
+                </button>
+                <span class="proy__rol"><b>Rol</b> {p.rol}</span>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <p class="obra__nota">
+        Los nombres de mandantes se citan solo como referencia de experiencia. Cada ficha indica
+        la empresa ejecutora y el rol desempeñado; no implican respaldo ni patrocinio.
+      </p>
+    </div>
+
+    {/* Un modal por proyecto */}
+    {lista.map((p) => (
+      <dialog class="modal" id={`modal-${p.id}`} aria-labelledby={`modal-${p.id}-titulo`}>
+        <div class="modal__box">
+          <header class="modal__top">
+            <span class="modal__kicker">{p.disciplina} · {p.anio}</span>
+            <button class="modal__close" type="button" aria-label="Cerrar" data-cerrar>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+            </button>
+          </header>
+
+          <h3 class="modal__titulo" id={`modal-${p.id}-titulo`}>{p.titulo}</h3>
+
+          <figure class="modal__media">
+            <img src={`${base}${p.imagen}`} alt={`${p.titulo} — ${p.disciplina}`} loading="lazy" />
+          </figure>
+
+          <div class="modal__grid">
+            <div>
+              <span class="modal__label">Qué había que resolver</span>
+              <p class="modal__txt">{p.desafio}</p>
+            </div>
+            <div>
+              <span class="modal__label">Qué se hizo</span>
+              <ul class="modal__list">
+                {p.hecho.map((h) => <li>{h}</li>)}
+              </ul>
+            </div>
+          </div>
+
+          {p.resultado && (
+            <div class="modal__result">
+              <span class="modal__label">Resultado</span>
+              <p class="modal__txt">{p.resultado}</p>
+            </div>
+          )}
+
+          <dl class="modal__datos">
+            {p.datos.map(([k, v]) => (
+              <div><dt>{k}</dt><dd>{v}</dd></div>
+            ))}
+          </dl>
+
+          <footer class="modal__meta">
+            <span><b>Rol</b> {p.rol}</span>
+            {p.mandante && <span><b>Mandante</b> {p.mandante}</span>}
+            <span><b>Ubicación</b> {p.ubicacion}</span>
+          </footer>
+        </div>
+      </dialog>
+    ))}
+  </section>
+)}
+
+<script>
+  const abrir = (id: string) => {
+    const dlg = document.getElementById(`modal-${id}`) as HTMLDialogElement | null;
+    if (!dlg) return;
+    dlg.showModal();
+    document.documentElement.classList.add('modal-abierto');
+  };
+
+  const cerrar = (dlg: HTMLDialogElement) => {
+    dlg.close();
+    document.documentElement.classList.remove('modal-abierto');
+  };
+
+  document.querySelectorAll<HTMLElement>('[data-abrir]').forEach((btn) => {
+    btn.addEventListener('click', () => abrir(btn.dataset.abrir || ''));
+  });
+
+  document.querySelectorAll<HTMLDialogElement>('dialog.modal').forEach((dlg) => {
+    dlg.querySelector('[data-cerrar]')?.addEventListener('click', () => cerrar(dlg));
+
+    // click en el backdrop (fuera de .modal__box) cierra
+    dlg.addEventListener('click', (e) => {
+      const box = dlg.querySelector('.modal__box');
+      if (box && !box.contains(e.target as Node)) cerrar(dlg);
+    });
+
+    dlg.addEventListener('close', () => {
+      document.documentElement.classList.remove('modal-abierto');
+    });
+  });
+</script>
